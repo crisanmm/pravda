@@ -30,7 +30,7 @@ namespace pravda_MVC.Controllers
 
             var client = new RestClient("https://localhost:44343");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
-            var request = new RestRequest("/api/values/getPrediction", RestSharp.Method.POST)
+            var request = new RestRequest("/api/classifications", RestSharp.Method.POST)
             {
                 RequestFormat = RestSharp.DataFormat.Json
             }.AddJsonBody(requestBody);
