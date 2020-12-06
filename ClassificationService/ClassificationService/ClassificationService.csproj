@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApplication1ML.Model\WebApplication1ML.Model.csproj" />
+    <ProjectReference Include="..\ClassificationService.Model\ClassificationService.Model.csproj" />
   </ItemGroup>
 
 

@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using Microsoft.ML;
 using Microsoft.ML.Data;
-using WebApplication1ML.Model;
+using ClassificationService.Model;
 
-namespace WebApplication1ML.ConsoleApp
+namespace ClassificationService.ConsoleApp
 {
     public static class ModelBuilder
     {

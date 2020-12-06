@@ -3,7 +3,7 @@
 using System;
 using Microsoft.ML.Data;
 
-namespace WebApplication1ML.Model
+namespace ClassificationService.Model
 {
     public class ModelOutput
     {

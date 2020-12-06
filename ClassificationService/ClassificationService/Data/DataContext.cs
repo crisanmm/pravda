@@ -1,7 +1,7 @@
-﻿using WebApplication1.Entities;
+﻿using ClassificationService.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApplication1.Data
+namespace ClassificationService.Data
 {
     public class DataContext : DbContext
     {

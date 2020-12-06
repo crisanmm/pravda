@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebApplication1.Data;
+using ClassificationService.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApplication1
+namespace ClassificationService
 {
     public class Startup
     {

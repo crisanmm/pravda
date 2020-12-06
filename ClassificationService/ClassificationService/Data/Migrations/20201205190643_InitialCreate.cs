@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApplication1.Data.Migrations
+namespace ClassificationService.Data.Migrations
 {
     public partial class InitialCreate : Migration
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using WebApplication1.Entities;
+using ClassificationService.Entities;
 
-namespace WebApplication1.Data
+namespace ClassificationService.Data
 {
     public interface IClassifiedRepository
     {

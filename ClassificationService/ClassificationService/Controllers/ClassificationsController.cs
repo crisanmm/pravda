@@ -1,21 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using WebApplication1ML.Model;
-using WebApplication1.Data;
-using WebApplication1.Entities;
+using ClassificationService.Model;
+using ClassificationService.Data;
+using ClassificationService.Entities;
 using System.Linq;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace WebApplication1.Controllers
+namespace ClassificationService.Controllers
 {
     [Route("api/classifications")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class ClassificationsController : ControllerBase
     {
 
         private readonly IClassifiedRepository repository;
 
-        public ValuesController(IClassifiedRepository repository)
+        public ClassificationsController(IClassifiedRepository repository)
         {
             this.repository = repository;
         }

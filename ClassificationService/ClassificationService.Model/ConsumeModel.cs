@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.ML;
-using WebApplication1ML.Model;
+using ClassificationService.Model;
 
-namespace WebApplication1ML.Model
+namespace ClassificationService.Model
 {
     public class ConsumeModel
     {
@@ -27,7 +27,7 @@ namespace WebApplication1ML.Model
             MLContext mlContext = new MLContext();
 
             // Load model & create prediction engine
-            string modelPath = @"D:\Documents\source\repos\WebApplication1\WebApplication1ML.Model\MLModel.zip";
+            string modelPath = @"/Users/crisanm/git-projects/pravda/WebApplication1/WebApplication1ML.Model/MLModel.zip";
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 

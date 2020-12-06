@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using WebApplication1.Entities;
+using ClassificationService.Entities;
 
-namespace WebApplication1.Data
+namespace ClassificationService.Data
 {
     public class ClassifiedRepository : IClassifiedRepository
     {
