@@ -134,3 +134,6 @@ _NCrunch*
 
 # Visual Studio
 .vs/
+
+# Visual Studio
+.vscode/
