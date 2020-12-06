@@ -11,6 +11,7 @@ namespace ClassificationService.Model
 {
     public class ConsumeModel
     {
+        public static string ModelPath { get; set; }
         private static Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictionEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(CreatePredictionEngine);
 
         // For more info on consuming ML.NET models, visit https://aka.ms/mlnet-consume
@@ -25,9 +26,8 @@ namespace ClassificationService.Model
         {
             // Create new MLContext
             MLContext mlContext = new MLContext();
-
             // Load model & create prediction engine
-            string modelPath = @"/Users/crisanm/git-projects/pravda/WebApplication1/WebApplication1ML.Model/MLModel.zip";
+            string modelPath = ModelPath;
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 

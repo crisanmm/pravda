@@ -13,6 +13,7 @@ namespace ClassificationService
     {
         public static void Main(string[] args)
         {
+            ClassificationService.Model.ConsumeModel.ModelPath = args[0];
             CreateHostBuilder(args).Build().Run();
         }
 
