@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1ML.ConsoleAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassificationService.Model", "ClassificationService.Model\ClassificationService.Model.csproj", "{5CDBFADA-4DDD-416A-8716-63B1D48C64A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassificationService.Shared", "ClassificationService.Shared\ClassificationService.Shared.csproj", "{D2446454-1E82-4D25-9C39-A2B0372DF6BE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
