@@ -46,7 +46,7 @@ namespace ClassificationService.Controllers
             ret.Add("subject", classified.Subject);
             ret.Add("date", classified.Date);
             ret.Add("isClassifiedFake", classified.isClassifiedFake);
-            ret.Add("ID", classified.id);
+            ret.Add("id", classified.id);
             // ret.Add("score", predictionResult.Score.ToString());
 
             return ret;
