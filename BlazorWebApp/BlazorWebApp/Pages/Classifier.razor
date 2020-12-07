@@ -50,14 +50,14 @@
     public async Task Classify()
     {
         var req = new Dictionary<string, dynamic>
-{
+        {
             { "title", classified.Title },
             { "text", classified.Text },
             { "subject", classified.Subject },
             { "date", classified.Date },
         };
 
-        var res = await Http.PostAsJsonAsync("https://localhost:5001/api/classifications", req);
+        var res = await Http.PostAsJsonAsync("https://localhost:44343/api/classifications", req);
         this.classified.isClassifiedFake = (await res.Content.ReadFromJsonAsync<Classified>()).isClassifiedFake;
         displayStyle = "block";
     }

@@ -1,0 +1,65 @@
+﻿@page "/register"
+@inject HttpClient Http
+
+<h1>Register</h1>
+
+<div>
+    <input placeholder="First Name" @bind = "user.FirstName" class="input firstname" />
+    <input placeholder="Last Name" @bind = "user.LastName" class="input lastname" />
+    <input placeholder="Email" @bind = "user.Email" class="input email" />
+    <input placeholder="Password" @bind = "user.Password" class="input password" />
+    <button @onclick="RegisterTask">Register</button>
+    <p style="display: @displayStyle">User Created: @showOutput</p>
+</div>
+
+
+
+@code 
+{
+    public class User
+    {
+        public User()
+        {
+        }
+
+        public User(string firstname, string lastname, string email, string password)
+        {
+            this.FirstName = firstname;
+            this.LastName = lastname;
+            this.Email = email;
+            this.Password = password;
+        }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+        public bool isCreated { get; set; }
+
+        public dynamic getResult { get; set; }
+
+    }
+
+    public User user { get; set; } = new User();
+    public string showOutput { get; set; } = "none";
+    public string displayStyle { get; set; } = "none";
+
+    public async Task RegisterTask()
+    {
+        var req = new Dictionary<string, dynamic>
+        {
+           {"firstname", user.LastName},
+           {"lastname", user.FirstName},
+           {"email", user.Email},
+           {"password", user.Password},
+        };
+
+        var res = await Http.PostAsJsonAsync("https://localhost:44344/api/users", req);
+        showOutput = res.IsSuccessStatusCode.ToString();
+        displayStyle = "block";
+    }
+}
