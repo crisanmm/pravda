@@ -27,7 +27,7 @@ namespace ClassificationService.Model
             // Create new MLContext
             MLContext mlContext = new MLContext();
             // Load model & create prediction engine
-            string modelPath = ModelPath;
+            string modelPath = "../ClassificationService.Model/MLModel.zip"; // ModelPath;
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 

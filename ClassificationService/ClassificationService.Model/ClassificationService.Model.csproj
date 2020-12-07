@@ -8,12 +8,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="MLModel.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectCapability Include="ModelBuilderGenerated" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectCapability Include="ModelBuilderGenerated" />
+    <None Update="MLModel.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
