@@ -1,0 +1,65 @@
+@page "/classifier"
+@inject HttpClient Http
+
+<h1>Classify a text</h1>
+
+<div>
+    <input placeholder="Title" @bind="classified.Title" class="input title" />
+    <input placeholder="Subject" @bind="classified.Subject" class="input subject" />
+    <input placeholder="Date" @bind="classified.Date" class="input date" />
+    <textarea placeholder="Text" @bind="classified.Text" class="input text" />
+    <button @onclick="Classify">Classify</button>
+    <p style="display: @displayStyle">Classification @(this.classified.isClassifiedFake == true ? "fake" : "real")</p>
+</div>
+
+
+@code {
+    public class Classified
+    {
+        public Classified()
+        {
+        }
+
+        public Classified(string title, string text, string subject, string date, string type, Boolean isClassifiedFake)
+        {
+            this.Title = title;
+            this.Text = text;
+            this.Subject = subject;
+            this.Date = date;
+            this.isClassifiedFake = isClassifiedFake;
+        }
+
+        public string Title { get; set; }
+
+        public string Text { get; set; }
+
+        public string Subject { get; set; }
+
+        public string Date { get; set; }
+
+        public string Type { get; set; }
+
+        public bool isClassifiedFake { get; set; }
+
+        public int id { get; set; }
+    }
+
+    public Classified classified { get; set; } = new Classified();
+    public string displayStyle { get; set; } = "none";
+
+    public async Task Classify()
+    {
+        var req = new Dictionary<string, dynamic>
+{
+            { "title", classified.Title },
+            { "text", classified.Text },
+            { "subject", classified.Subject },
+            { "date", classified.Date },
+        };
+
+        var res = await Http.PostAsJsonAsync("https://localhost:5001/api/classifications", req);
+        this.classified.isClassifiedFake = (await res.Content.ReadFromJsonAsync<Classified>()).isClassifiedFake;
+        displayStyle = "block";
+    }
+
+}
