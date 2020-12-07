@@ -21,25 +21,31 @@ namespace ClassificationService.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Dictionary<string, string>> GetPrediction(ModelInput modelInput)
+        public ActionResult<Dictionary<string, dynamic>> GetPrediction(ModelInput modelInput)
         {
             var predictionResult = ConsumeModel.Predict(modelInput);
 
-            Dictionary<string, string> ret = new Dictionary<string, string>();
+            Dictionary<string, dynamic> ret = new Dictionary<string, dynamic>();
+            bool isClassifiedFake = predictionResult.Prediction == "Fake" ? true : false;
 
             // TO DO
             // verificare ca nu exista deja in baza de date
             repository.Create(new Classified(
-                modelInput.Title, 
+                modelInput.Title,
                 modelInput.Text,
-                modelInput.Subject, 
-                modelInput.Date, 
-                modelInput.Type, 
-                predictionResult.Prediction == "Fake" ? true : false
+                modelInput.Subject,
+                modelInput.Date,
+                modelInput.Type,
+                isClassifiedFake
             ));
 
-            ret.Add("Text", modelInput.Text);
-            ret.Add("isClassifiedFake", predictionResult.Prediction);
+
+            ret.Add("title", modelInput.Title);
+            ret.Add("text", modelInput.Text);
+            ret.Add("subject", modelInput.Subject);
+            ret.Add("date", modelInput.Date);
+            ret.Add("type", modelInput.Type);
+            ret.Add("isClassifiedFake", isClassifiedFake);
             // ret.Add("score", predictionResult.Score.ToString());
 
             return ret;
