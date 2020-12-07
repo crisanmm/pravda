@@ -28,23 +28,25 @@ namespace ClassificationService.Controllers
             Dictionary<string, dynamic> ret = new Dictionary<string, dynamic>();
             bool isClassifiedFake = predictionResult.Prediction == "Fake" ? true : false;
 
-            // TO DO
-            // verificare ca nu exista deja in baza de date
-            repository.Create(new Classified(
+            var classified = new Classified(
                 modelInput.Title,
                 modelInput.Text,
-                modelInput.Subject, 
-                modelInput.Date, 
+                modelInput.Subject,
+                modelInput.Date,
                 predictionResult.Prediction == "Fake" ? true : false
-            ));
+            );
+
+            // TO DO
+            // verificare ca nu exista deja in baza de date
+            repository.Create(classified);
 
 
-            ret.Add("title", modelInput.Title);
-            ret.Add("text", modelInput.Text);
-            ret.Add("subject", modelInput.Subject);
-            ret.Add("date", modelInput.Date);
-            ret.Add("type", modelInput.Type);
-            ret.Add("isClassifiedFake", isClassifiedFake);
+            ret.Add("title", classified.Title);
+            ret.Add("text", classified.Text);
+            ret.Add("subject", classified.Subject);
+            ret.Add("date", classified.Date);
+            ret.Add("isClassifiedFake", classified.isClassifiedFake);
+            ret.Add("ID", classified.id);
             // ret.Add("score", predictionResult.Score.ToString());
 
             return ret;
