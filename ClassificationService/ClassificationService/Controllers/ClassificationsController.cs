@@ -33,10 +33,9 @@ namespace ClassificationService.Controllers
             repository.Create(new Classified(
                 modelInput.Title,
                 modelInput.Text,
-                modelInput.Subject,
-                modelInput.Date,
-                modelInput.Type,
-                isClassifiedFake
+                modelInput.Subject, 
+                modelInput.Date, 
+                predictionResult.Prediction == "Fake" ? true : false
             ));
 
 

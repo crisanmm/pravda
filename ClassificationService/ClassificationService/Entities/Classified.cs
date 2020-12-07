@@ -7,7 +7,7 @@ namespace ClassificationService.Entities
 {
     public class Classified
     {
-        public Classified(string title, string text, string subject, string date, string type, Boolean isClassifiedFake)
+        public Classified(string title, string text, string subject, string date, Boolean isClassifiedFake)
         {
             this.Title = title;
             this.Text = text;
@@ -23,8 +23,6 @@ namespace ClassificationService.Entities
         public string Subject { get; set; }
 
         public string Date { get; set; }
-
-        public string Type { get; set; }
 
         public bool isClassifiedFake { get; set; }
 
