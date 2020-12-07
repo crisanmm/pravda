@@ -25,6 +25,16 @@ namespace ClassificationService
                 options.UseSqlite(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyHeader();
+                });
+            });
+
             services.AddTransient<IClassifiedRepository, ClassifiedRepository>();
             services.AddControllers();
         }
@@ -40,6 +50,7 @@ namespace ClassificationService
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseAuthorization();
 
