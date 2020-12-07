@@ -131,3 +131,9 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+
+# Visual Studio
+.vs/
+
+# Visual Studio
+.vscode/

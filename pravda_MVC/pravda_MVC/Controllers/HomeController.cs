@@ -28,9 +28,9 @@ namespace pravda_MVC.Controllers
             requestBody.Add("Subject", "News");
             requestBody.Add("Date", "31-Dec-17");
 
-            var client = new RestClient("https://localhost:5001");
+            var client = new RestClient("https://localhost:44343");
             // client.Authenticator = new HttpBasicAuthenticator(username, password);
-            var request = new RestRequest("/api/values/getPrediction", RestSharp.Method.POST)
+            var request = new RestRequest("/api/classifications", RestSharp.Method.POST)
             {
                 RequestFormat = RestSharp.DataFormat.Json
             }.AddJsonBody(requestBody);
