@@ -1,2 +1,0 @@
-# pravda
-Fake news detector
