@@ -1,142 +1,147 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+﻿@import url("open-iconic/font/css/open-iconic-bootstrap.min.css");
 
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-a, .btn-link {
-    color: #0366d6;
+a,
+.btn-link {
+  color: #0366d6;
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
 }
 
 .content {
-    padding-top: 1.1rem;
+  padding-top: 1.1rem;
 }
 
-.valid.modified:not([type=checkbox]) {
-    outline: 1px solid #26b050;
+.valid.modified:not([type="checkbox"]) {
+  outline: 1px solid #26b050;
 }
 
 .invalid {
-    outline: 1px solid red;
+  outline: 1px solid red;
 }
 
 .validation-message {
-    color: red;
+  color: red;
 }
 
 #blazor-error-ui {
-    background: lightyellow;
-    bottom: 0;
-    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
-    display: none;
-    left: 0;
-    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
+  background: lightyellow;
+  bottom: 0;
+  box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+  display: none;
+  left: 0;
+  padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
 
-    #blazor-error-ui .dismiss {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        top: 0.5rem;
-    }
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
+#blazor-error-ui .dismiss {
+  cursor: pointer;
+  position: absolute;
+  right: 0.75rem;
+  top: 0.5rem;
+}
+z .card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
 }
 
 .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .container {
-    padding: 2px 16px;
+  padding: 2px 16px;
 }
 
 .bodyForRegisterLogin {
-    background-image: url("/css/img/signup-bg.png");
+  background-image: url("/css/img/signup-bg.png");
 }
 
 * {
-    box-sizing: border-box
+  box-sizing: border-box;
 }
 
 /* Full-width input fields */
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0 22px 0;
-    display: inline-block;
-    border: none;
-    background: #f1f1f1;
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
 }
 
-    input[type=text]:focus, input[type=password]:focus {
-        background-color: #ddd;
-        outline: none;
-    }
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
 
 hr {
-    border: 1px solid #f1f1f1;
-    margin-bottom: 25px;
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
 }
 
 /* Set a style for all buttons */
 button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    opacity: 0.9;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
 }
 
-    button:hover {
-        opacity: 1;
-    }
+button:hover {
+  opacity: 1;
+}
 
 /* Extra styles for the cancel button */
 .cancelbtn {
-    padding: 14px 20px;
-    background-color: #f44336;
+  padding: 14px 20px;
+  background-color: #f44336;
 }
 
 /* Float cancel and signup buttons and add an equal width */
 .signupbtn {
-    float: left;
-    width: 25%;
+  float: left;
+  width: 25%;
 }
 
 .forgot {
-    float: right;
-    width: 25%;
+  float: right;
+  width: 25%;
 }
 
 /* Add padding to container elements */
 .container {
-    padding: 16px;
+  padding: 16px;
 }
 
 /* Clear floats */
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+  content: "";
+  clear: both;
+  display: table;
 }
 
 /* Change styles for cancel button and signup button on extra small screens */
 @media screen and (max-width: 300px) {
-    .cancelbtn, .signupbtn {
-        width: 100%;
-    }
+  .cancelbtn,
+  .signupbtn {
+    width: 100%;
+  }
 }
