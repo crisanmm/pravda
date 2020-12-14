@@ -137,6 +137,3 @@ _NCrunch*
 
 # Visual Studio
 .vscode/
-
-!/BlazorWebApp/BlazorWebApp/bin
-!/BlazorWebApp/BlazorWebApp/bin/**
