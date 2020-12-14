@@ -1,30 +1,28 @@
 ﻿@page "/register"
 @inject HttpClient Http
 
-<form>
-    <div class="container">
-        <h1>Register</h1>
-        <p>Please fill in this form to create an account.</p>
+<div class="container">
+    <h1>Register</h1>
+    <p>Please fill in this form to create an account.</p>
 
-        <label for="first-name"><b>First Name</b></label>
-        <input id="first-name" type="text" placeholder="First Name" @bind="user.FirstName" class="input firstname" />
+    <label for="first-name"><b>First Name</b></label>
+    <input id="first-name" type="text" placeholder="First Name" @bind="user.FirstName" class="input firstname" />
 
-        <label for="last-name"><b>Last Name</b></label>
-        <input id="last-name" type="text" placeholder="Last Name" @bind="user.LastName" class="input lastname" />
+    <label for="last-name"><b>Last Name</b></label>
+    <input id="last-name" type="text" placeholder="Last Name" @bind="user.LastName" class="input lastname" />
 
-        <label for="email"><b>Email</b></label>
-        <input id="email" type="text" placeholder="Email" @bind="user.Email" class="input email" />
+    <label for="email"><b>Email</b></label>
+    <input id="email" type="text" placeholder="Email" @bind="user.Email" class="input email" />
 
-        <label for="password"><b>Password</b></label>
-        <input id="password" type="password" placeholder="Password" @bind="user.Password" class="input password" />
+    <label for="password"><b>Password</b></label>
+    <input id="password" type="password" placeholder="Password" @bind="user.Password" class="input password" />
 
 
-        <div class="clearfix">
-            <button @onclick="RegisterTask" type="submit" class="signupbtn">Register</button>
-        </div>
-        <p style="display: @displayStyle">User Created: @showOutput</p>
+    <div class="clearfix">
+        <button @onclick="RegisterTask" type="submit" class="signupbtn">Register</button>
     </div>
-</form>
+    <p style="display: @displayStyle">User Created: @showOutput</p>
+</div>
 
 
 @code
@@ -71,7 +69,7 @@
             {"password", user.Password},
         };
 
-        var res = await Http.PostAsJsonAsync("https://localhost:44344/api/users", req);
+        var res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/register", req);
         showOutput = res.IsSuccessStatusCode.ToString();
         displayStyle = "block";
     }
