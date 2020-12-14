@@ -3,13 +3,15 @@
 
 <h3>Top 10 news searched.</h3>
 
-@for (int i = 0; i < 9; i++)
-{<div id="@i" class="card">
+@for (int i = 1; i < 10; i++)
+{
+    <div id="@i" class="card">
         <div class="container">
             <h4><b>Title</b></h4>
             <p>Context</p>
         </div>
-    </div>}
+    </div>
+}
 
 @code {
 
