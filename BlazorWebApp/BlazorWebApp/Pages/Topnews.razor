@@ -1,45 +1,49 @@
 @page "/topnews"
 @inject HttpClient Http
 
-<div class="header-wrapper">
-    <h3>Top 10 news searched.</h3>
-</div>
-
 <div class="topnews">
-    @for (int i = 1; i < 10; i++)
+    @if (Classifieds == null)
     {
-        <div id="@i" class="topnews__card">
-            <h5>Lorem ipsum dolor sit amet.</h5>
-            <div class="subject-date">
-                <p class="date">20-10-2020</p>
-                <p class="subject">Politics</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia ut quaerat eum odit ducimus enim doloremque
-                accusamus. Cumque veritatis, voluptatum facere minima tempore soluta dignissimos ducimus at recusandae
-                laborum fuga nostrum! Quae, rem accusamus minima nihil quod porro quas ipsam in culpa ipsum obcaecati
-                laudantium corporis maxime repellat provident dolor nemo saepe ut maiores? Sed, delectus reprehenderit? Vel
-                sunt sequi, in maxime aperiam, minus ullam illum reiciendis cupiditate, odio blanditiis! Voluptatum
-                inventore aspernatur, quibusdam veniam provident possimus ducimus iste laudantium magnam dicta iure
-                temporibus, voluptas impedit minima debitis rem! Ea provident facilis veritatis, magni tempora, alias quos
-                odit nam ducimus saepe repudiandae illo quis deserunt quia reiciendis quam incidunt unde amet quo
-                consequuntur voluptatibus architecto harum repellendus fugiat! Reiciendis autem omnis animi suscipit aperiam
-                repudiandae quam accusantium alias. Accusamus magni nobis alias laborum exercitationem vel sunt? Odio
-                necessitatibus quis libero, quos est dolore magni neque molestiae id in accusantium impedit dicta incidunt
-                deleniti nihil sed quae voluptas officiis! Quas voluptatum fugit deserunt voluptates, ipsam corporis
-                eligendi sint quia dicta eveniet nesciunt debitis dolorem nemo ea doloremque iste, nostrum ipsum. Aperiam,
-                eaque vitae. Iure voluptatum quae placeat quisquam provident, laboriosam adipisci ipsa rem sint illo hic
-                laborum in mollitia qui quo.</p>
+        <div>Loading...</div>
+    }
+    else
+    {
+        <div class="header-wrapper">
+            <h3>Top @Classifieds.Count() news searched.</h3>
         </div>
-
-        @* <div id="@i" class="card">
-            <div class="container">
-            <h4><b>Title</b></h4>
-            <p>Context</p>
+        @foreach (Classified classified in Classifieds)
+        {
+            <div class="topnews__card">
+                <h5>@classified.Title</h5>
+                <div class="subject-date">
+                    <p class="date">@classified.Date</p>
+                    <p class="subject">@classified.Subject</p>
+                </div>
+                <p>@classified.Text</p>
+                <p style="font-weight: bold; font-size: 2rem">@(classified.isClassifiedFake ? "FAKE" : "TRUE")</p>
             </div>
-            </div> *@
+        }
     }
 </div>
 
 @code {
+
+    public List<Classified> Classifieds = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        @* var req = new Dictionary<string, dynamic>
+        {
+            { "title", classified.Title },
+            { "text", classified.Text },
+            { "subject", classified.Subject },
+            { "date", classified.Date },
+        }; *@
+
+        var res = await Http.GetFromJsonAsync<List<Classified>>("https://localhost:5005/api/cached_classifications/getHotNews");
+        Classifieds = res;
+        @* displayStyle = "block"; *@
+    }
+
 
 }

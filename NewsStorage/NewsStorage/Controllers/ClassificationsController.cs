@@ -10,7 +10,7 @@ using System;
 
 namespace ClassificationService.Controllers
 {
-    [Route("api/classifications")]
+    [Route("api/cached_classifications")]
     [ApiController]
     public class ClassificationsController : ControllerBase
     {
