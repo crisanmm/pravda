@@ -1,4 +1,4 @@
-namespace WebApplication1.Models.Users
+namespace UserService.Models.Users
 {
   public class UpdateModel
     {

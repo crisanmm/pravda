@@ -1,24 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApplication1.Entities;
-using WebApplication1.Helpers;
+using UserService.Entities;
+using UserService.Helpers;
 
-namespace WebApplication1.Services
+namespace UserService.Services
 {
-    public interface IUserService
-    {
-        User Authenticate(string email, string password);
-        IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
-        void Update(User user, string password = null);
-        void Delete(int id);
-    }
-
     public class UserService : IUserService
     {
-        private DataContext _context;
+        private readonly DataContext _context;
 
         public UserService(DataContext context)
         {
@@ -58,10 +48,10 @@ namespace WebApplication1.Services
         {
             // validation
             if (string.IsNullOrWhiteSpace(password))
-                throw new AppException("Password is required");
+                throw new UserException("Password is required");
 
             if (_context.Users.Any(x => x.Email == user.Email))
-                throw new AppException("email \"" + user.Email + "\" is already taken");
+                throw new UserException("email \"" + user.Email + "\" is already taken");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
@@ -80,14 +70,14 @@ namespace WebApplication1.Services
             var user = _context.Users.Find(userParam.Id);
 
             if (user == null)
-                throw new AppException("User not found");
+                throw new UserException("User not found");
 
             // update email if it has changed
             if (!string.IsNullOrWhiteSpace(userParam.Email) && userParam.Email != user.Email)
             {
                 // throw error if the new email is already taken
                 if (_context.Users.Any(x => x.Email == userParam.Email))
-                    throw new AppException("email " + userParam.Email + " is already taken");
+                    throw new UserException("email " + userParam.Email + " is already taken");
 
                 user.Email = userParam.Email;
             }

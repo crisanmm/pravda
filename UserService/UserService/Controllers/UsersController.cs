@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using AutoMapper;
 using System.IdentityModel.Tokens.Jwt;
-using WebApplication1.Helpers;
-using Microsoft.Extensions.Options;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using WebApplication1.Services;
-using WebApplication1.Entities;
-using WebApplication1.Models.Users;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using UserService.Entities;
+using UserService.Helpers;
+using UserService.Models.Users;
+using UserService.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 
-
-namespace WebApplication1.Controllers
+namespace UserService.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
@@ -35,11 +36,29 @@ namespace WebApplication1.Controllers
             _appSettings = appSettings.Value;
         }
 
+        [AllowAnonymous]
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] RegisterModel model)
+        {
+            // map model to entity
+            var user = _mapper.Map<User>(model);
 
-        //This is for the following tasks
+            try
+            {
+                // create user
+                _userService.Create(user, model.Password);
+                return Ok(user);
+            }
+            catch (UserException ex)
+            {
+                // return error message if there was an exception
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public IActionResult Authenticate([FromBody]AuthenticateModel model)
+        public IActionResult Authenticate([FromBody] AuthenticateModel model)
         {
             var user = _userService.Authenticate(model.Email, model.Password);
             Console.WriteLine(model.Password);
@@ -60,6 +79,10 @@ namespace WebApplication1.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
+            //HttpContext.Session.SetString("JWT", tokenString);
+            HttpContext.Response.Cookies.Append("JWT", tokenString, new CookieOptions { HttpOnly = true });
+
+
             // return basic user info and authentication token
             return Ok(new
             {
@@ -71,29 +94,8 @@ namespace WebApplication1.Controllers
             });
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public IActionResult Register([FromBody]RegisterModel model)
-        {
-            // map model to entity
-            var user = _mapper.Map<User>(model);
-
-            try
-            {
-                // create user
-                _userService.Create(user, model.Password);
-                return Ok(user);
-            }
-            catch (AppException ex)
-            {
-                // return error message if there was an exception
-                return BadRequest(new { message = ex.Message });
-            }
-        }
-
         [HttpGet]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
@@ -102,18 +104,17 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
-        //[Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetById(int id)
         {
             var user = _userService.GetById(id);
             var model = _mapper.Map<UserModel>(user);
             return Ok(model);
         }
-        //This is for the following tasks
+
         [HttpPut("{id}")]
-        [AllowAnonymous]
-        public IActionResult Update(int id, [FromBody]UpdateModel model)
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult Update(int id, [FromBody] UpdateModel model)
         {
             // map model to entity and set id
             var user = _mapper.Map<User>(model);
@@ -125,15 +126,15 @@ namespace WebApplication1.Controllers
                 _userService.Update(user, model.Password);
                 return Ok();
             }
-            catch (AppException ex)
+            catch (UserException ex)
             {
                 // return error message if there was an exception
                 return BadRequest(new { message = ex.Message });
             }
         }
-        //This is for the following tasks
+
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Delete(int id)
         {
             _userService.Delete(id);

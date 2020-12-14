@@ -1,8 +1,8 @@
 using AutoMapper;
-using WebApplication1.Entities;
-using WebApplication1.Models.Users;
+using UserService.Entities;
+using UserService.Models.Users;
 
-namespace WebApplication1.Helpers
+namespace UserService.Helpers
 {
     public class AutoMapperProfile : Profile
     {

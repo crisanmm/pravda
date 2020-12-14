@@ -1,4 +1,4 @@
-namespace WebApplication1.Entities
+namespace UserService.Entities
 {
     public class User
     {

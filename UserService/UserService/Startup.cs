@@ -10,10 +10,10 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using WebApplication1.Helpers;
-using WebApplication1.Services;
+using UserService.Helpers;
+using UserService.Services;
 
-namespace WebApplication1
+namespace UserService
 {
     public class Startup
     {
@@ -33,7 +33,7 @@ namespace WebApplication1
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserService, UserService.Services.UserService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors(options =>
             {
@@ -57,7 +57,6 @@ namespace WebApplication1
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             })
             .AddJwtBearer(x =>
             {
@@ -74,7 +73,7 @@ namespace WebApplication1
                             context.Fail("Unauthorized");
                         }
                         return Task.CompletedTask;
-                    }
+                    },
                 };
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
@@ -88,7 +87,7 @@ namespace WebApplication1
             });
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService.Services.UserService>();
 
         }
 

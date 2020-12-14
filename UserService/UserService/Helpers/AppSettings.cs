@@ -1,4 +1,4 @@
-namespace WebApplication1.Helpers
+namespace UserService.Helpers
 {
     public class AppSettings
     {
