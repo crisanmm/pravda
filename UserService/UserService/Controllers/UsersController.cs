@@ -80,8 +80,7 @@ namespace UserService.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             //HttpContext.Session.SetString("JWT", tokenString);
-            HttpContext.Response.Cookies.Append("JWT", tokenString, new CookieOptions { HttpOnly = true });
-
+            HttpContext.Response.Cookies.Append("JWT", tokenString);
 
             // return basic user info and authentication token
             return Ok(new

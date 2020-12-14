@@ -1,5 +1,6 @@
 ﻿@page "/login"
 @inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <div class="container">
     <h1>Login</h1>
@@ -52,8 +53,9 @@
         };
 
         var res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/authenticate", req);
-        System.Console.WriteLine(res.Content.ToString());
-        @* System.Console.WriteLine(res.Headers()); *@
+        var dict = await res.Content.ReadFromJsonAsync<Dictionary<string, dynamic>>();
+        @* System.Console.WriteLine(dict["token"]); *@
+        await localStorage.SetItemAsync("token", dict["token"]);
         showOutput = res.IsSuccessStatusCode.ToString();
         displayStyle = "block";
     }
