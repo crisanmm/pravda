@@ -1,13 +1,25 @@
 @page "/classifier"
 @inject HttpClient Http
 
-<h1>Classify a text</h1>
+<div class="container">
+    <h1>Classify a text</h1>
 
-<div>
-    <input placeholder="Title" @bind="classified.Title" class="input title" />
-    <input placeholder="Subject" @bind="classified.Subject" class="input subject" />
-    <input placeholder="Date" @bind="classified.Date" class="input date" />
-    <textarea placeholder="Text" @bind="classified.Text" class="input text" />
+    <div>
+        <label for="title">Title</label>
+        <input id="title" type="text" placeholder="Title" @bind="classified.Title" class="input title" />
+    </div>
+
+    <div>
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" placeholder="Subject" @bind="classified.Subject" class="input subject" />
+    </div>
+
+    <div>
+        <label for="date">Date</label>
+        <input id="date" type="text" placeholder="Date" @bind="classified.Date" class="input date" />
+    </div>
+
+    <textarea placeholder="Text" @bind="classified.Text" class="input text"></textarea>
     <button @onclick="Classify">Classify</button>
     <p style="display: @displayStyle">Classification @(this.classified.isClassifiedFake == true ? "fake" : "real")</p>
 </div>

@@ -1,17 +1,44 @@
 @page "/topnews"
 @inject HttpClient Http
 
-<h3>Top 10 news searched.</h3>
+<div class="header-wrapper">
+    <h3>Top 10 news searched.</h3>
+</div>
 
-@for (int i = 1; i < 10; i++)
-{
-    <div id="@i" class="card">
-        <div class="container">
+<div class="topnews">
+    @for (int i = 1; i < 10; i++)
+    {
+        <div id="@i" class="topnews__card">
+            <h5>Lorem ipsum dolor sit amet.</h5>
+            <div class="subject-date">
+                <p class="date">20-10-2020</p>
+                <p class="subject">Politics</p>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia ut quaerat eum odit ducimus enim doloremque
+                accusamus. Cumque veritatis, voluptatum facere minima tempore soluta dignissimos ducimus at recusandae
+                laborum fuga nostrum! Quae, rem accusamus minima nihil quod porro quas ipsam in culpa ipsum obcaecati
+                laudantium corporis maxime repellat provident dolor nemo saepe ut maiores? Sed, delectus reprehenderit? Vel
+                sunt sequi, in maxime aperiam, minus ullam illum reiciendis cupiditate, odio blanditiis! Voluptatum
+                inventore aspernatur, quibusdam veniam provident possimus ducimus iste laudantium magnam dicta iure
+                temporibus, voluptas impedit minima debitis rem! Ea provident facilis veritatis, magni tempora, alias quos
+                odit nam ducimus saepe repudiandae illo quis deserunt quia reiciendis quam incidunt unde amet quo
+                consequuntur voluptatibus architecto harum repellendus fugiat! Reiciendis autem omnis animi suscipit aperiam
+                repudiandae quam accusantium alias. Accusamus magni nobis alias laborum exercitationem vel sunt? Odio
+                necessitatibus quis libero, quos est dolore magni neque molestiae id in accusantium impedit dicta incidunt
+                deleniti nihil sed quae voluptas officiis! Quas voluptatum fugit deserunt voluptates, ipsam corporis
+                eligendi sint quia dicta eveniet nesciunt debitis dolorem nemo ea doloremque iste, nostrum ipsum. Aperiam,
+                eaque vitae. Iure voluptatum quae placeat quisquam provident, laboriosam adipisci ipsa rem sint illo hic
+                laborum in mollitia qui quo.</p>
+        </div>
+
+        @* <div id="@i" class="card">
+            <div class="container">
             <h4><b>Title</b></h4>
             <p>Context</p>
-        </div>
-    </div>
-}
+            </div>
+            </div> *@
+    }
+</div>
 
 @code {
 
