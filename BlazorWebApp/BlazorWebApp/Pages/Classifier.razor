@@ -62,6 +62,9 @@
             // classify instance
             res = await Http.PostAsJsonAsync("https://localhost:5007/api/classifications", req);
             this.classified.isClassifiedFake = (await res.Content.ReadFromJsonAsync<ClassificationResponse>()).IsClassifiedFake;
+
+            // store the article in cache
+            await Http.PostAsJsonAsync("https://localhost:5005/api/cached_classifications/store", req);
         }
         displayStyle = "block";
     }

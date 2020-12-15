@@ -62,6 +62,13 @@ namespace ClassificationService.Controllers
         [HttpGet("{id}")]
         public ActionResult<Classified> GetById(int id) => Ok(repository.GetById(id));
 
+        [HttpDelete("{id}")]
+        public ActionResult DeleteById(int id)
+        {
+            repository.Remove(id);
+            return NoContent();
+        }
+
         [HttpGet("hotnews")]
         public ActionResult<List<Classified>> GetHotNews() => Ok(repository.GetAll()
                                                                             .Where(c => c.Today + c.Yesterday + c.Before_Yesterday > 1 && (DateTime.Now - c.ResetTime).TotalHours < 72)
