@@ -13,14 +13,22 @@
         </div>
         @foreach (Classified classified in Classifieds)
         {
-            <div class="topnews__card">
+            @if (@classified.isClassifiedFake)
+            {
+                backgroundColor = "rgba(255, 0, 0, 0.1)";
+            }
+            else
+            {
+                backgroundColor = "rgba(0, 255, 0, 0.1)";
+            }
+
+            <div class="topnews__card" style="background-color: @backgroundColor">
                 <h5>@classified.Title</h5>
                 <div class="subject-date">
                     <p class="date">@classified.Date</p>
                     <p class="subject">@classified.Subject</p>
                 </div>
                 <p>@classified.Text</p>
-                <p style="font-weight: bold; font-size: 2rem">@(classified.isClassifiedFake ? "FAKE" : "TRUE")</p>
             </div>
         }
     }
@@ -29,6 +37,8 @@
 @code {
 
     public List<Classified> Classifieds = null;
+    
+    public string backgroundColor { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -42,7 +52,6 @@
     
         var res = await Http.GetFromJsonAsync<List<Classified>>("https://localhost:5005/api/cached_classifications/hotnews");
         Classifieds = res;
-        @* displayStyle = "block"; *@
     }
 
 

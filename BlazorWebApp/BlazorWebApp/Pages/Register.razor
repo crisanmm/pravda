@@ -12,10 +12,10 @@
     <input id="last-name" type="text" placeholder="Last Name" @bind="user.LastName" class="input lastname" />
 
     <label for="email"><b>Email</b></label>
-    <input id="email" type="text" placeholder="Email" @bind="user.Email" class="input email" />
+    <input id="email" type="email" placeholder="Email" @bind="user.Email" class="input email" />
 
     <label for="password"><b>Password</b></label>
-    <input id="password" type="password" placeholder="Password" @bind="user.Password" class="input password" />
+    <input id="password" type="password" placeholder="Password" @bind="user.Password" class="input password" minlength="6"/>
 
 
     <div class="clearfix">

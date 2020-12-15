@@ -7,10 +7,10 @@
     <p>Please fill in this form to login.</p>
 
     <label for="email"><b>Email</b></label>
-    <input @bind="user.Email" type="text" placeholder="Email" class="input email" />
+    <input @bind="user.Email" type="email" placeholder="Email" class="input email" />
 
     <label for="psw"><b>Password</b></label>
-    <input @bind="user.Password" type="password" placeholder="Password" class="input password" />
+    <input @bind="user.Password" type="password" placeholder="Password" class="input password" minlength="6" />
 
     <div class="clearfix">
         <button @onclick="LoginTask" type="submit" class="signupbtn">Login</button>
