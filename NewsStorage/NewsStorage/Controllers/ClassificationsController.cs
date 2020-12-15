@@ -32,12 +32,13 @@ namespace ClassificationService.Controllers
             Dictionary<string, dynamic> dictionaries = new Dictionary<string, dynamic>();
 
             if (check != null)
-            {                
+            {
                 dictionaries["Found"] = true;
-                dictionaries["Title"] =  check.Title;
+                dictionaries["Title"] = check.Title;
                 dictionaries["Text"] = check.Text;
                 dictionaries["Subject"] = check.Subject;
                 dictionaries["Date"] = check.Date;
+                dictionaries["IsClassifiedFake"] = check.isClassifiedFake;
             }
             else
             {
@@ -47,7 +48,7 @@ namespace ClassificationService.Controllers
             return Ok(dictionaries);
         }
 
-        [HttpPost("storeArticle")]
+        [HttpPost("store")]
         public ActionResult StoreArticle(Classified classified)
         {
             repository.Create(classified);
@@ -55,14 +56,17 @@ namespace ClassificationService.Controllers
             return NoContent();
         }
 
-
         [HttpGet]
         public ActionResult<List<Classified>> GetAllClassified() => Ok(repository.GetAll().ToList());
 
         [HttpGet("{id}")]
         public ActionResult<Classified> GetById(int id) => Ok(repository.GetById(id));
 
-        [HttpGet("getHotNews")]
-        public ActionResult<List<Classified>> GetHotNews() => Ok(repository.GetAll().Where(c => c.Today + c.Yesterday + c.Before_Yesterday > 1 && (DateTime.Now - c.ResetTime).TotalHours < 72).OrderByDescending(c=> c.Today + c.Yesterday + c.Before_Yesterday).Take(10).ToList());
+        [HttpGet("hotnews")]
+        public ActionResult<List<Classified>> GetHotNews() => Ok(repository.GetAll()
+                                                                            .Where(c => c.Today + c.Yesterday + c.Before_Yesterday > 1 && (DateTime.Now - c.ResetTime).TotalHours < 72)
+                                                                            .OrderByDescending(c => c.Today + c.Yesterday + c.Before_Yesterday)
+                                                                            .Take(10)
+                                                                            .ToList());
     }
 }

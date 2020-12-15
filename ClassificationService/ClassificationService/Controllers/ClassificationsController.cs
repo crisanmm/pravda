@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ClassificationService.Model;
+using System.Collections.Generic;
 
 namespace ClassificationService.Controllers
 {
@@ -9,19 +10,18 @@ namespace ClassificationService.Controllers
     {
 
         [HttpPost]
-        public ActionResult<bool> GetPrediction(ModelInput modelInput)
+        public ActionResult<Dictionary<string, bool>> GetPrediction(ModelInput modelInput)
         {
-
             var predictionResult = ConsumeModel.Predict(modelInput);
 
             bool isClassifiedFake = predictionResult.Prediction == "Fake" ? true : false;
 
-            return predictionResult.Prediction == "Fake" ? true : false;
-
-
+            var ret = new Dictionary<string, bool>
+            {
+                {"isClassifiedFake", isClassifiedFake}
+            };
+            return ret;
         }
-
-
 
     }
 }

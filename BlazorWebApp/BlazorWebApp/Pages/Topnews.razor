@@ -39,8 +39,8 @@
             { "subject", classified.Subject },
             { "date", classified.Date },
         }; *@
-
-        var res = await Http.GetFromJsonAsync<List<Classified>>("https://localhost:5005/api/cached_classifications/getHotNews");
+    
+        var res = await Http.GetFromJsonAsync<List<Classified>>("https://localhost:5005/api/cached_classifications/hotnews");
         Classifieds = res;
         @* displayStyle = "block"; *@
     }
