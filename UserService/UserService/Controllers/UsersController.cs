@@ -22,12 +22,12 @@ namespace UserService.Controllers
     [Route("api/users")]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
+        private IUserAccountService _userService;
         private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
         public UsersController(
-            IUserService userService,
+            IUserAccountService userService,
             IMapper mapper,
             IOptions<AppSettings> appSettings)
         {

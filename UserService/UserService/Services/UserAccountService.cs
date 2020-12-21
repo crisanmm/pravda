@@ -6,11 +6,11 @@ using UserService.Helpers;
 
 namespace UserService.Services
 {
-    public class UserService : IUserService
+    public class UserAccountService : IUserAccountService
     {
         private readonly DataContext _context;
 
-        public UserService(DataContext context)
+        public UserAccountService(DataContext context)
         {
             _context = context;
         }

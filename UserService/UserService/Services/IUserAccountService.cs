@@ -3,7 +3,7 @@ using UserService.Entities;
 
 namespace UserService.Services
 {
-    public interface IUserService
+    public interface IUserAccountService
     {
         User Authenticate(string email, string password);
         IEnumerable<User> GetAll();

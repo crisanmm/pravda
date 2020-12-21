@@ -33,7 +33,7 @@ namespace UserService
                 options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddTransient<IUserService, UserService.Services.UserService>();
+            services.AddTransient<IUserAccountService, UserService.Services.UserAccountService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddCors(options =>
             {
@@ -64,7 +64,7 @@ namespace UserService
                 {
                     OnTokenValidated = context =>
                     {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
+                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserAccountService>();
                         var userId = int.Parse(context.Principal.Identity.Name);
                         var user = userService.GetById(userId);
                         if (user == null)
@@ -87,7 +87,7 @@ namespace UserService
             });
 
             // configure DI for application services
-            services.AddScoped<IUserService, UserService.Services.UserService>();
+            services.AddScoped<IUserAccountService, UserService.Services.UserAccountService>();
 
         }
 
