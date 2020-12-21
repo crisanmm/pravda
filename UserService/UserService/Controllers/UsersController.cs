@@ -63,7 +63,7 @@ namespace UserService.Controllers
             var user = _userService.Authenticate(model.Email, model.Password);
             Console.WriteLine(model.Password);
             if (user == null)
-                return BadRequest(new { message = "Email or password is incorrect" });
+                return Unauthorized(new { message = "Email or password is incorrect" });
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_appSettings.Secret);
@@ -123,7 +123,7 @@ namespace UserService.Controllers
             {
                 // update user 
                 _userService.Update(user, model.Password);
-                return Ok();
+                return NoContent();
             }
             catch (UserException ex)
             {
@@ -137,7 +137,7 @@ namespace UserService.Controllers
         public IActionResult Delete(int id)
         {
             _userService.Delete(id);
-            return Ok();
+            return NoContent();
         }
     }
 }
