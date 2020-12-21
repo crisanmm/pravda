@@ -1,0 +1,17 @@
+@page "/logoff"
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<p>Logging off...</p>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        if (await localStorage.ContainKeyAsync("token"))
+        {
+            await localStorage.RemoveItemAsync("token");
+            NavigationManager.NavigateTo("/", true);
+        }
+    }
+}

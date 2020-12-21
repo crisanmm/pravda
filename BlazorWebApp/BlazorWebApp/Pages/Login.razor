@@ -1,62 +1,66 @@
 ﻿@page "/login"
+@using BlazorWebApp.Models
 @inject HttpClient Http
+@inject NavigationManager NavigationManager
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-<div class="container">
+<EditForm model="@User" class="container" OnValidSubmit="@LoginTask">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
     <h1>Login</h1>
     <p>Please fill in this form to login.</p>
 
     <label for="email"><b>Email</b></label>
-    <input @bind="user.Email" type="email" placeholder="Email" class="input email" />
+    <input @bind-value="User.Email" type="email" placeholder="Email" class="input email" />
 
     <label for="psw"><b>Password</b></label>
-    <input @bind="user.Password" type="password" placeholder="Password" class="input password" minlength="6" />
+    <input @bind-value="User.Password" type="password" placeholder="Password" class="input password" minlength="6"/>
 
     <div class="clearfix">
-        <button @onclick="LoginTask" type="submit" class="signupbtn">Login</button>
-        <button type="submit" class="forgot">Forgot password</button>
+        <button type="submit" class="signupbtn">Login</button>
+        @* <button type="submit" class="forgot">Forgot password</button> *@
     </div>
 
-    <p style="display: @displayStyle">User Created: @showOutput</p>
-</div>
+    <div class="form_output" style="display: @DisplayStyle">@TextOutput</div>
+</EditForm>
 
 @code
 {
-    public class LoginUser
-    {
-        public LoginUser()
-        {
-        }
-
-        public LoginUser(string email, string password)
-        {
-            this.Email = email;
-            this.Password = password;
-        }
-
-        public string Email { get; set; }
-
-        public string Password { get; set; }
-
-    }
-
-    public LoginUser user { get; set; } = new LoginUser();
-    public string showOutput { get; set; } = "none";
-    public string displayStyle { get; set; } = "none";
+    public LoginUser User { get; set; } = new LoginUser();
+    public string DisplayStyle { get; set; } = "none";
+    public string TextOutput { get; set; } = "this is a string";
 
     public async Task LoginTask()
     {
-        var req = new Dictionary<string, dynamic>
+        Dictionary<string, dynamic> req = new Dictionary<string, dynamic>
         {
-            {"email", user.Email},
-            {"password", user.Password},
+            {"email", User.Email},
+            {"password", User.Password},
         };
 
-        var res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/authenticate", req);
-        var dict = await res.Content.ReadFromJsonAsync<Dictionary<string, dynamic>>();
-        @* System.Console.WriteLine(dict["token"]); *@
-        await localStorage.SetItemAsync("token", dict["token"]);
-        showOutput = res.IsSuccessStatusCode.ToString();
-        displayStyle = "block";
+        HttpResponseMessage res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/authenticate", req);
+        Dictionary<string, dynamic> dict = await res.Content.ReadFromJsonAsync<Dictionary<string, dynamic>>();
+        
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            await localStorage.SetItemAsync("token", dict["token"]);
+            this.TextOutput = "Successfully logged in.";
+            @* refresh page *@
+            await InvokeAsync(() => {
+                var aTimer = new System.Timers.Timer(1000);
+                aTimer.Elapsed += (sender, args) => {
+                    NavigationManager.NavigateTo("", true);
+                };
+                aTimer.AutoReset = false;
+                aTimer.Enabled = true;
+            });
+        }
+        else
+        {
+            this.TextOutput = "Failed logging in.";
+        }
+        DisplayStyle = "block";
+
     }
 }

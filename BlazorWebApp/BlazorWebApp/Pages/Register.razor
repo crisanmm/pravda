@@ -1,76 +1,71 @@
 ﻿@page "/register"
+@using BlazorWebApp.Models
+@inject NavigationManager NavigationManager
 @inject HttpClient Http
 
-<div class="container">
-    <h1>Register</h1>
+<EditForm model="@User" class="container" OnValidSubmit="@RegisterTask">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
     <p>Please fill in this form to create an account.</p>
 
     <label for="first-name"><b>First Name</b></label>
-    <input id="first-name" type="text" placeholder="First Name" @bind="user.FirstName" class="input firstname" />
+    <input id="first-name" type="text" placeholder="First Name" @bind="User.FirstName" class="input firstname" />
 
     <label for="last-name"><b>Last Name</b></label>
-    <input id="last-name" type="text" placeholder="Last Name" @bind="user.LastName" class="input lastname" />
+    <input id="last-name" type="text" placeholder="Last Name" @bind="User.LastName" class="input lastname" />
 
     <label for="email"><b>Email</b></label>
-    <input id="email" type="email" placeholder="Email" @bind="user.Email" class="input email" />
+    <input id="email" type="email" placeholder="Email" @bind="User.Email" class="input email" />
 
     <label for="password"><b>Password</b></label>
-    <input id="password" type="password" placeholder="Password" @bind="user.Password" class="input password" minlength="6"/>
+    <input id="password" type="password" placeholder="Password" @bind="User.Password" class="input password" minlength="6"/>
 
 
     <div class="clearfix">
-        <button @onclick="RegisterTask" type="submit" class="signupbtn">Register</button>
+        <button type="submit" class="signupbtn">Register</button>
     </div>
-    <p style="display: @displayStyle">User Created: @showOutput</p>
-</div>
+
+    <div class="form_output" style="display: @DisplayStyle">@TextOutput</div>
+</EditForm>
 
 
 @code
 {
-    public class User
-    {
-        public User()
-        {
-        }
-
-        public User(string firstname, string lastname, string email, string password)
-        {
-            this.FirstName = firstname;
-            this.LastName = lastname;
-            this.Email = email;
-            this.Password = password;
-        }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string Email { get; set; }
-
-        public string Password { get; set; }
-
-        public bool isCreated { get; set; }
-
-        public dynamic getResult { get; set; }
-
-    }
-
-    public User user { get; set; } = new User();
-    public string showOutput { get; set; } = "none";
-    public string displayStyle { get; set; } = "none";
+    public RegisterUser User {get; set;} = new RegisterUser();
+    public string TextOutput { get; set; }
+    public string DisplayStyle { get; set; } = "none";
 
     public async Task RegisterTask()
     {
-        var req = new Dictionary<string, dynamic>
+        Dictionary<string, dynamic> req = new Dictionary<string, dynamic>
         {
-            {"firstname", user.LastName},
-            {"lastname", user.FirstName},
-            {"email", user.Email},
-            {"password", user.Password},
+            {"firstname", User.LastName},
+            {"lastname", User.FirstName},
+            {"email", User.Email},
+            {"password", User.Password},
         };
 
-        var res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/register", req);
-        showOutput = res.IsSuccessStatusCode.ToString();
-        displayStyle = "block";
+        HttpResponseMessage res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/register", req);
+
+        if(res.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            this.TextOutput = "Successfully registered.";
+            @* redirect to /login *@
+            await InvokeAsync(() => {
+                var aTimer = new System.Timers.Timer(1000);
+                aTimer.Elapsed += (sender, args) => {
+                    NavigationManager.NavigateTo("/login", false);
+                };
+                aTimer.AutoReset = false;
+                aTimer.Enabled = true;
+            });
+        }
+        else
+        {
+            this.TextOutput = "Failed registering.";
+        }
+
+        DisplayStyle = "block";
     }
 }

@@ -1,4 +1,6 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">Pravda</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -13,35 +15,45 @@
             </NavLink>
         </li>
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="topnews">
-                <span class="oi oi-fire" aria-hidden="true"></span> Top news
-            </NavLink>
-        </li>
+        @{
+            if (!this.LoggedIn)
+            { 
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="register">
+                        <span class="oi oi-person" aria-hidden="true"></span> Register
+                    </NavLink>
+                </li>
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="classifier">
-                <span class="oi oi-calculator" aria-hidden="true"></span> Classify text
-            </NavLink>
-        </li>
-
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="register">
-                <span class="oi oi-person" aria-hidden="true"></span> Register
-            </NavLink>
-        </li>
-
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="login">
-                <span class="oi oi-person" aria-hidden="true"></span> Login
-            </NavLink>
-        </li>
-
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="donate">
-                <span class="oi oi-dollar" aria-hidden="true"></span> Donate
-            </NavLink>
-        </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="login">
+                        <span class="oi oi-person" aria-hidden="true"></span> Login
+                    </NavLink>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="topnews">
+                        <span class="oi oi-fire" aria-hidden="true"></span> Top news
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="classifier">
+                        <span class="oi oi-calculator" aria-hidden="true"></span> Classify text
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="donate">
+                        <span class="oi oi-dollar" aria-hidden="true"></span> Donate
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="logoff">
+                        <span class="oi oi-person" aria-hidden="true"></span> Log off
+                    </NavLink>
+                </li>
+            }
+        }
     </ul>
 </div>
 
@@ -50,8 +62,15 @@
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    public bool LoggedIn { get; set; }
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        this.LoggedIn = await localStorage.ContainKeyAsync("token");
     }
 }

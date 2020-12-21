@@ -15,14 +15,14 @@
         {
             @if (@classified.isClassifiedFake)
             {
-                backgroundColor = "rgba(255, 0, 0, 0.1)";
+                BackgroundColor = "rgba(255, 0, 0, 0.1)";
             }
             else
             {
-                backgroundColor = "rgba(0, 255, 0, 0.1)";
+                BackgroundColor = "rgba(0, 255, 0, 0.1)";
             }
 
-            <div class="topnews__card" style="background-color: @backgroundColor">
+            <div class="topnews__card" style="background-color: @BackgroundColor">
                 <h5>@classified.Title</h5>
                 <div class="subject-date">
                     <p class="date">@classified.Date</p>
@@ -38,18 +38,10 @@
 
     public List<Classified> Classifieds = null;
     
-    public string backgroundColor { get; set; }
+    public string BackgroundColor { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        @* var req = new Dictionary<string, dynamic>
-        {
-            { "title", classified.Title },
-            { "text", classified.Text },
-            { "subject", classified.Subject },
-            { "date", classified.Date },
-        }; *@
-    
         var res = await Http.GetFromJsonAsync<List<Classified>>("https://localhost:5005/api/cached_classifications/hotnews");
         Classifieds = res;
     }

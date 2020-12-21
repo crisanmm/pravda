@@ -50,6 +50,7 @@ a,
   right: 0.75rem;
   top: 0.5rem;
 }
+
 .card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
@@ -146,4 +147,14 @@ button:hover {
   .signupbtn {
     width: 100%;
   }
+}
+
+.form_output {
+  border-radius: none;
+  border: 1px solid #f1f1f1;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  margin: 2rem auto;
+  text-align: center;
+  max-width: 25%;
 }
