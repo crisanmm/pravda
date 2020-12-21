@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ClassificationService.Data;
+using NewsStorage.Data;
 
-namespace ClassificationService.Data.Migrations
+namespace NewsStorage.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20201205190643_InitialCreate")]

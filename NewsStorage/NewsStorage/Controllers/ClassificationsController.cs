@@ -1,34 +1,34 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using ClassificationService.Data;
-using ClassificationService.Entities;
+using NewsStorage.Data;
+using NewsStorage.Entities;
 using System.Linq;
 using System.Net.Http;
 using System.Dynamic;
 using System;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace ClassificationService.Controllers
+namespace NewsStorage.Controllers
 {
     [Route("api/cached_classifications")]
     [ApiController]
-    public class ClassificationsController : ControllerBase
+    public class CachedClassificationsController : ControllerBase
     {
 
         private readonly IClassifiedRepository repository;
 
         private static readonly HttpClient client = new HttpClient();
 
-        public ClassificationsController(IClassifiedRepository repository)
+        public CachedClassificationsController(IClassifiedRepository repository)
         {
             this.repository = repository;
         }
 
         [HttpPost]
-        public ActionResult<Dictionary<string, dynamic>> GetPrediction(Classified classified)
+        public ActionResult<Dictionary<string, dynamic>> GetPrediction(CachedClassified classified)
         {
 
-            var check = this.repository.CheckExistence(classified);
+            var check = this.repository.UpdateCache(classified);
             Dictionary<string, dynamic> dictionaries = new Dictionary<string, dynamic>();
 
             if (check != null)
@@ -49,7 +49,7 @@ namespace ClassificationService.Controllers
         }
 
         [HttpPost("store")]
-        public ActionResult StoreArticle(Classified classified)
+        public ActionResult StoreArticle(CachedClassified classified)
         {
             repository.Create(classified);
 
@@ -57,10 +57,10 @@ namespace ClassificationService.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Classified>> GetAllClassified() => Ok(repository.GetAll().ToList());
+        public ActionResult<List<CachedClassified>> GetAllClassified() => Ok(repository.GetAll().ToList());
 
         [HttpGet("{id}")]
-        public ActionResult<Classified> GetById(int id) => Ok(repository.GetById(id));
+        public ActionResult<CachedClassified> GetById(int id) => Ok(repository.GetById(id));
 
         [HttpDelete("{id}")]
         public ActionResult DeleteById(int id)
@@ -70,8 +70,8 @@ namespace ClassificationService.Controllers
         }
 
         [HttpGet("hotnews")]
-        public ActionResult<List<Classified>> GetHotNews() => Ok(repository.GetAll()
-                                                                            .Where(c => c.Today + c.Yesterday + c.Before_Yesterday > 1 && (DateTime.Now - c.ResetTime).TotalHours < 72)
+        public ActionResult<List<CachedClassified>> GetHotNews() => Ok(repository.GetAll()
+                                                                            .Where(c => c.Today + c.Yesterday + c.Before_Yesterday >= 1 && (DateTime.Now - c.ResetTime).TotalHours <= 72)
                                                                             .OrderByDescending(c => c.Today + c.Yesterday + c.Before_Yesterday)
                                                                             .Take(10)
                                                                             .ToList());

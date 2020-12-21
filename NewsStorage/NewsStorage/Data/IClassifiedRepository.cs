@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using ClassificationService.Entities;
+using NewsStorage.Entities;
 
-namespace ClassificationService.Data
+namespace NewsStorage.Data
 {
     public interface IClassifiedRepository
     {
-        Classified Create(Classified classified);
-        IEnumerable<Classified> GetAll();
-        Classified GetById(int id);
+        CachedClassified Create(CachedClassified classified);
+        IEnumerable<CachedClassified> GetAll();
+        CachedClassified GetById(int id);
         void Remove(int id);
-        Classified CheckExistence(Classified classified);
+        CachedClassified UpdateCache(CachedClassified classified);
     }
 }

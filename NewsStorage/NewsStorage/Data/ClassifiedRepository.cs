@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ClassificationService.Entities;
+using NewsStorage.Entities;
 
-namespace ClassificationService.Data
+namespace NewsStorage.Data
 {
-    public class ClassifiedRepository : IClassifiedRepository
+    public class CachedClassifiedRepository : IClassifiedRepository
     {
         private readonly DataContext context;
 
-        public ClassifiedRepository(DataContext context)
+        public CachedClassifiedRepository(DataContext context)
         {
             this.context = context;
         }
-        public Classified Create(Classified classified)
+        public CachedClassified Create(CachedClassified classified)
         {
             this.context.Add(classified);
             this.context.SaveChanges();
@@ -26,20 +26,19 @@ namespace ClassificationService.Data
             this.context.SaveChanges();
         }
 
-        public IEnumerable<Classified> GetAll()
+        public IEnumerable<CachedClassified> GetAll()
         {
             return this.context.Classifieds.ToList();
         }
 
-        public Classified GetById(int id)
+        public CachedClassified GetById(int id)
         {
             return this.context.Classifieds.Find(id);
         }
 
-        public Classified CheckExistence(Classified classified)
+        public CachedClassified UpdateCache(CachedClassified classified)
         {
-            List<Classified> classifieds = this.GetAll().ToList();
-
+            List<CachedClassified> classifieds = this.GetAll().ToList();
 
             var temp = classifieds.Find(c => c.Title == classified.Title && c.Date == classified.Date);
 

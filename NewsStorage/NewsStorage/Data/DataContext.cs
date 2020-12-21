@@ -1,7 +1,7 @@
-﻿using ClassificationService.Entities;
+﻿using NewsStorage.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClassificationService.Data
+namespace NewsStorage.Data
 {
     public class DataContext : DbContext
     {
@@ -9,6 +9,6 @@ namespace ClassificationService.Data
         {
         }
 
-        public DbSet<Classified> Classifieds { get; set; }
+        public DbSet<CachedClassified> Classifieds { get; set; }
     }
 }

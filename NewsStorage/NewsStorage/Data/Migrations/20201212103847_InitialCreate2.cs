@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ClassificationService.Data.Migrations
+namespace NewsStorage.Data.Migrations
 {
     public partial class InitialCreate2 : Migration
     {

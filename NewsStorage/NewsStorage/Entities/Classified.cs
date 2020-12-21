@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClassificationService.Entities
+namespace NewsStorage.Entities
 {
-    public class Classified
+    public class CachedClassified
     {
-        public Classified(string title, string text, string subject, string date, Boolean isClassifiedFake)
+        public CachedClassified(string title, string text, string subject, string date, Boolean isClassifiedFake)
         {
             this.Title = title;
             this.Text = text;
