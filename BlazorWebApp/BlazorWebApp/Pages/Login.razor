@@ -33,6 +33,15 @@
     public string DisplayStyle { get; set; } = "none";
     public string TextOutput { get; set; } = "this is a string";
 
+    protected override async Task OnInitializedAsync()
+    {
+        var LoggedIn = await localStorage.ContainKeyAsync("token");
+        if(LoggedIn)
+        {
+            NavigationManager.NavigateTo("/home");
+        }
+    }
+
     public async Task LoginTask()
     {
         Dictionary<string, dynamic> req = new Dictionary<string, dynamic>
@@ -41,7 +50,7 @@
             {"password", User.Password},
         };
 
-        HttpResponseMessage res = await Http.PostAsJsonAsync($"{@Configuration["UserService"]}/authenticate", req);
+        HttpResponseMessage res = await Http.PostAsJsonAsync($"{@Configuration["UserService"]}/users/authenticate", req);
         Dictionary<string, dynamic> dict = await res.Content.ReadFromJsonAsync<Dictionary<string, dynamic>>();
         
         if (res.StatusCode == System.Net.HttpStatusCode.OK)

@@ -2,6 +2,8 @@
 @inject HttpClient Http
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
+@inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <div class="container">
     <h1>Classify a text</h1>
@@ -31,6 +33,15 @@
     public Classified classified { get; set; } = new Classified();
     public string displayStyle { get; set; } = "none";
 
+    protected override async Task OnInitializedAsync()
+    {
+        var LoggedIn = await localStorage.ContainKeyAsync("token");
+        if (!LoggedIn)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+
     private class CachedClassificationResponse
     {
         public bool Found { get; set; }
@@ -53,23 +64,21 @@
 
         // check to see if article is in cache
         HttpResponseMessage res = await
-            Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/cached_classifications",
+            Http.PostAsJsonAsync($"{@Configuration["NewsStorage"]}/cached_classifications",
             req);
         CachedClassificationResponse ccr = await res.Content.ReadFromJsonAsync<CachedClassificationResponse>();
         if (ccr.Found)
         {
-            System.Console.WriteLine("found in cache");
             this.classified.isClassifiedFake = ccr.IsClassifiedFake;
         }
         else
         {
-            System.Console.WriteLine("not found in cache");
             // classify instance
             res = await Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/classifications", req);
             this.classified.isClassifiedFake = (await res.Content.ReadFromJsonAsync<ClassificationResponse>()).IsClassifiedFake;
 
             // store the article in cache
-            await Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/cached_classifications/store", req);
+            await Http.PostAsJsonAsync($"{@Configuration["NewsStorage"]}/cached_classifications/store", req);
         }
         displayStyle = "block";
     }

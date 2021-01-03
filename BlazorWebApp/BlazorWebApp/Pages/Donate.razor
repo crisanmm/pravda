@@ -1,6 +1,7 @@
 @page "/donate"
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <!-- Display a payment form -->
 <div class="form-wrapper">
@@ -22,6 +23,18 @@
 </div>
 
 @code {
+    [Parameter]
+    public bool LoggedIn { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var LoggedIn = await localStorage.ContainKeyAsync("token");
+        if (!LoggedIn)
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

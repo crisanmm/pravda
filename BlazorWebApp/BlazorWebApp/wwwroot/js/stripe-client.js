@@ -1,10 +1,7 @@
 let Configuration = {};
 fetch("/appsettings.json").then(async (res) => {
   Configuration = await res.json();
-  console.log(Configuration);
 });
-
-console.log(Configuration);
 
 stripeFn = () => {
   // A reference to Stripe.js initialized with your real test publishable API key.
