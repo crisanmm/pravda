@@ -108,8 +108,8 @@ button {
   opacity: 0.9;
 }
 
-button:hover {
-  opacity: 1;
+button:disabled {
+  opacity: 0.25;
 }
 
 /* Extra styles for the cancel button */

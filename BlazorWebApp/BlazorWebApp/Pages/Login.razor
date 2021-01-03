@@ -3,6 +3,8 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <EditForm model="@User" class="container" OnValidSubmit="@LoginTask">
     <DataAnnotationsValidator />
@@ -39,7 +41,7 @@
             {"password", User.Password},
         };
 
-        HttpResponseMessage res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/authenticate", req);
+        HttpResponseMessage res = await Http.PostAsJsonAsync($"{@Configuration["UserService"]}/authenticate", req);
         Dictionary<string, dynamic> dict = await res.Content.ReadFromJsonAsync<Dictionary<string, dynamic>>();
         
         if (res.StatusCode == System.Net.HttpStatusCode.OK)

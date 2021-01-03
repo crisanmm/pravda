@@ -1,7 +1,33 @@
 @page "/donate"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
-<h1>Coming soon!</h1>
+<!-- Display a payment form -->
+<div class="form-wrapper">
+    <form id="payment-form">
+        <h2>Buy us a coffe: 5$</h2>
+        <div id="card-element">
+            <!--Stripe.js injects the Card Element-->
+        </div>
+        <button id="submit">
+            <div class="spinner hidden" id="spinner"></div>
+            <span id="button-text">Pay</span>
+        </button>
+        <p id="card-error" role="alert"></p>
+        <p class="result-message hidden">
+            Payment succeeded, see the result in your
+            <a href="" target="_blank">Stripe dashboard.</a> Redirecting to the home page...
+        </p>
+    </form>
+</div>
 
 @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("stripeFn");
+        }
+    }
 
 }

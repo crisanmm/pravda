@@ -1,5 +1,7 @@
 @page "/classifier"
 @inject HttpClient Http
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <div class="container">
     <h1>Classify a text</h1>
@@ -38,18 +40,21 @@
     {
         public bool IsClassifiedFake { get; set; }
     }
+
     public async Task Classify()
     {
         var req = new Dictionary<string, dynamic>
-        {
-            { "title", classified.Title },
-            { "text", classified.Text },
-            { "subject", classified.Subject },
-            { "date", classified.Date },
-        };
+{
+{ "title", classified.Title },
+{ "text", classified.Text },
+{ "subject", classified.Subject },
+{ "date", classified.Date },
+};
 
         // check to see if article is in cache
-        HttpResponseMessage res = await Http.PostAsJsonAsync("https://localhost:5005/api/cached_classifications", req);
+        HttpResponseMessage res = await
+            Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/cached_classifications",
+            req);
         CachedClassificationResponse ccr = await res.Content.ReadFromJsonAsync<CachedClassificationResponse>();
         if (ccr.Found)
         {
@@ -60,11 +65,11 @@
         {
             System.Console.WriteLine("not found in cache");
             // classify instance
-            res = await Http.PostAsJsonAsync("https://localhost:5007/api/classifications", req);
+            res = await Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/classifications", req);
             this.classified.isClassifiedFake = (await res.Content.ReadFromJsonAsync<ClassificationResponse>()).IsClassifiedFake;
 
             // store the article in cache
-            await Http.PostAsJsonAsync("https://localhost:5005/api/cached_classifications/store", req);
+            await Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/cached_classifications/store", req);
         }
         displayStyle = "block";
     }

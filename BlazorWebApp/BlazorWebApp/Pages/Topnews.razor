@@ -1,5 +1,7 @@
 @page "/topnews"
 @inject HttpClient Http
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <div class="topnews">
     @if (Classifieds == null)
@@ -42,7 +44,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var res = await Http.GetFromJsonAsync<List<Classified>>("https://localhost:5005/api/cached_classifications/hotnews");
+        var res = await Http.GetFromJsonAsync<List<Classified>>($"{@Configuration["NewsStorage"]}/cached_classifications/hotnews");
         Classifieds = res;
     }
 

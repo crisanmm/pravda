@@ -1,17 +1,28 @@
-stripe = () => {
+let Configuration = {};
+fetch("/appsettings.json").then(async (res) => {
+  Configuration = await res.json();
+  console.log(Configuration);
+});
+
+console.log(Configuration);
+
+stripeFn = () => {
   // A reference to Stripe.js initialized with your real test publishable API key.
-  var stripe = Stripe(
-    "pk_test_51I0pMtC4Z1dRglPM3hKKpPE81cpZzfbuAZfZtWLGVbvsH7TP43kI1GuUOkV9cDHMoZ6OADZ2iRwoliodZL58rahu00hnJMKABz"
+  let stripe = Stripe(
+    "pk_test_51I5atOHCCagIEuhDqa5u4vfiSIS1VSOkcXlc8dVoZ05QNpWIIjcK58Eqyzk8UDuEkmyMMHagy72quffCrnuNRbvI00z89onMda"
   );
 
   // The items the customer wants to buy
-  var purchase = {
-    items: [{ id: "5coffee" }],
+  let purchase = {
+    items: [{ id: "donate" }],
   };
 
   // Disable the button until we have Stripe set up on the page
-  document.querySelector("button").disabled = true;
-  fetch("https://localhost:5500/create-payment-intent", {
+
+  button = document.querySelector("button");
+  button.disabled = true;
+
+  fetch(`${Configuration["StripeService"]}/create-payment-intent`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,9 +33,9 @@ stripe = () => {
       return result.json();
     })
     .then(function (data) {
-      var elements = stripe.elements();
+      let elements = stripe.elements();
 
-      var style = {
+      let style = {
         base: {
           color: "#32325d",
           fontFamily: "Arial, sans-serif",
@@ -40,20 +51,20 @@ stripe = () => {
           iconColor: "#fa755a",
         },
       };
+      let card = elements.create("card", { style: style });
 
-      var card = elements.create("card", { style: style });
       // Stripe injects an iframe into the DOM
       card.mount("#card-element");
 
       card.on("change", function (event) {
         // Disable the Pay button if there are no card details in the Element
-        document.querySelector("button").disabled = event.empty;
+        button.disabled = event.empty;
         document.querySelector("#card-error").textContent = event.error
           ? event.error.message
           : "";
       });
 
-      var form = document.getElementById("payment-form");
+      let form = document.getElementById("payment-form");
       form.addEventListener("submit", function (event) {
         event.preventDefault();
         // Complete payment when the submit button is clicked
@@ -64,8 +75,8 @@ stripe = () => {
   // Calls stripe.confirmCardPayment
   // If the card requires authentication Stripe shows a pop-up modal to
   // prompt the user to enter authentication details without leaving your page.
-  var payWithCard = function (stripe, card, clientSecret) {
-    loading(true);
+  let payWithCard = function (stripe, card, clientSecret) {
+    setLoadingState(true);
     stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
@@ -86,8 +97,8 @@ stripe = () => {
   /* ------- UI helpers ------- */
 
   // Shows a success message when the payment is complete
-  var orderComplete = function (paymentIntentId) {
-    loading(false);
+  let orderComplete = function (paymentIntentId) {
+    setLoadingState(false);
     document
       .querySelector(".result-message a")
       .setAttribute(
@@ -95,16 +106,16 @@ stripe = () => {
         "https://dashboard.stripe.com/test/payments/" + paymentIntentId
       );
     document.querySelector(".result-message").classList.remove("hidden");
-    document.querySelector("button").disabled = true;
+    button.disabled = true;
     window.setTimeout(function () {
-      location.replace("http://localhost:5100/");
+      location.replace("/");
     }, 3000);
   };
 
   // Show the customer the error from Stripe if their card fails to charge
-  var showError = function (errorMsgText) {
-    loading(false);
-    var errorMsg = document.querySelector("#card-error");
+  let showError = function (errorMsgText) {
+    setLoadingState(false);
+    let errorMsg = document.querySelector("#card-error");
     errorMsg.textContent = errorMsgText;
     setTimeout(function () {
       errorMsg.textContent = "";
@@ -112,7 +123,7 @@ stripe = () => {
   };
 
   // Show a spinner on payment submission
-  var loading = function (isLoading) {
+  let setLoadingState = function (isLoading) {
     if (isLoading) {
       // Disable the button and show a spinner
       document.querySelector("button").disabled = true;

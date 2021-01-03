@@ -2,6 +2,8 @@
 @using BlazorWebApp.Models
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <EditForm model="@User" class="container" OnValidSubmit="@RegisterTask">
     <DataAnnotationsValidator />
@@ -19,7 +21,8 @@
     <input id="email" type="email" placeholder="Email" @bind="User.Email" class="input email" />
 
     <label for="password"><b>Password</b></label>
-    <input id="password" type="password" placeholder="Password" @bind="User.Password" class="input password" minlength="6"/>
+    <input id="password" type="password" placeholder="Password" @bind="User.Password" class="input password"
+        minlength="6" />
 
 
     <div class="clearfix">
@@ -32,7 +35,7 @@
 
 @code
 {
-    public RegisterUser User {get; set;} = new RegisterUser();
+    public RegisterUser User { get; set; } = new RegisterUser();
     public string TextOutput { get; set; }
     public string DisplayStyle { get; set; } = "none";
 
@@ -46,20 +49,22 @@
             {"password", User.Password},
         };
 
-        HttpResponseMessage res = await Http.PostAsJsonAsync("https://localhost:5001/api/users/register", req);
+        HttpResponseMessage res = await Http.PostAsJsonAsync($"{@Configuration["UserService"]}/users/register", req);
 
-        if(res.StatusCode == System.Net.HttpStatusCode.OK)
+        if (res.StatusCode == System.Net.HttpStatusCode.OK)
         {
             this.TextOutput = "Successfully registered.";
             @* redirect to /login *@
-            await InvokeAsync(() => {
-                var aTimer = new System.Timers.Timer(1000);
-                aTimer.Elapsed += (sender, args) => {
+            await InvokeAsync(() =>
+            {
+                                var aTimer = new System.Timers.Timer(1000);
+                                aTimer.Elapsed += (sender, args) =>
+            {
                     NavigationManager.NavigateTo("/login", false);
                 };
-                aTimer.AutoReset = false;
-                aTimer.Enabled = true;
-            });
+                                aTimer.AutoReset = false;
+                                aTimer.Enabled = true;
+                            });
         }
         else
         {

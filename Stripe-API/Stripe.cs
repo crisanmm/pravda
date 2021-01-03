@@ -10,69 +10,79 @@ using Stripe;
 
 namespace StripeExample
 {
-  public class Program
-  {
-    public static void Main(string[] args)
+    public class Program
     {
-      WebHost.CreateDefaultBuilder(args)
-        .UseUrls("https://localhost:5500/")
-        .UseWebRoot(".")
-        .UseStartup<Startup>()
-        .Build()
-        .Run();
-    }
-  }
-
-  public class Startup
-  {
-    public void ConfigureServices(IServiceCollection services)
-    {
-      services.AddMvc().AddNewtonsoftJson();
+        public static void Main(string[] args)
+        {
+            WebHost.CreateDefaultBuilder(args)
+              .UseUrls("https://localhost:5500/")
+              .UseWebRoot(".")
+              .UseStartup<Startup>()
+              .Build()
+              .Run();
+        }
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public class Startup
     {
-      StripeConfiguration.ApiKey = "sk_test_51I0pMtC4Z1dRglPMvv09PGilfkGQfnjBJ0Iy0py75vb07sV0dpNJHjs00O4lroatKCmrDyKSa5YaQsDt6IoPe1vW00TnhS2sU8";
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddCors(options =>
+              {
+                  options.AddDefaultPolicy(builder =>
+                  {
+                      builder.AllowAnyOrigin();
+                      builder.AllowAnyMethod();
+                      builder.AllowAnyHeader();
+                  });
+              });
+            services.AddMvc().AddNewtonsoftJson();
+        }
 
-      if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
-      app.UseRouting();
-      app.UseStaticFiles();
-      app.UseEndpoints(endpoints => endpoints.MapControllers());
-    }
-  }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            StripeConfiguration.ApiKey = "sk_test_51I5atOHCCagIEuhDMW1L0zhsqjcl08DGNOfpLzLpccYqfsFBJlLJtuz92ir5iPlfbiIvVL2FPw7Qysb2IYkrPvV900BUSWMyUu";
 
-  [Route("create-payment-intent")]
-  [ApiController]
-  public class PaymentIntentApiController : Controller
-  {
-    [HttpPost]
-    public ActionResult Create(PaymentIntentCreateRequest request)
-    {
-      var paymentIntents = new PaymentIntentService();
-      var paymentIntent = paymentIntents.Create(new PaymentIntentCreateOptions
-      {
-        Amount = CalculateOrderAmount(request.Items),
-        Currency = "usd",
-      });
-
-      return Json(new { clientSecret = paymentIntent.ClientSecret });
-    }
-
-    private int CalculateOrderAmount(Item[] items)
-    {
-      return 500;
+            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            app.UseCors();
+            app.UseRouting();
+            app.UseStaticFiles();
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+        }
     }
 
-    public class Item
+    [Route("/api/v1/create-payment-intent")]
+    [ApiController]
+    public class PaymentIntentApiController : Controller
     {
-      [JsonProperty("id")]
-      public string Id { get; set; }
-    }
+        [HttpPost]
+        public ActionResult Create(PaymentIntentCreateRequest request)
+        {
+            var paymentIntents = new PaymentIntentService();
+            var paymentIntent = paymentIntents.Create(new PaymentIntentCreateOptions
+            {
+                Amount = CalculateOrderAmount(request.Items),
+                Currency = "usd",
+            });
 
-    public class PaymentIntentCreateRequest
-    {
-      [JsonProperty("items")]
-      public Item[] Items { get; set; }
+            return Json(new { clientSecret = paymentIntent.ClientSecret });
+        }
+
+        private int CalculateOrderAmount(Item[] items)
+        {
+            return 500;
+        }
+
+        public class Item
+        {
+            [JsonProperty("id")]
+            public string Id { get; set; }
+        }
+
+        public class PaymentIntentCreateRequest
+        {
+            [JsonProperty("items")]
+            public Item[] Items { get; set; }
+        }
     }
-  }
 }
