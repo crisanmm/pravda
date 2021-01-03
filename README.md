@@ -6,7 +6,7 @@ Fake news detector
 
 
 | Port mappings         | HTTPS | HTTP |
-| --------------------- | ----- |
+| --------------------- | ----- | ---- |
 | BlazorWebApp          | 5100  | 5099 |
 | ClassificationService | 5200  | 5199 |
 | NewsStorage           | 5300  | 5299 |
