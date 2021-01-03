@@ -15,7 +15,7 @@ namespace StripeExample
     public static void Main(string[] args)
     {
       WebHost.CreateDefaultBuilder(args)
-        .UseUrls("https://localhost:44356/")
+        .UseUrls("https://localhost:5500/")
         .UseWebRoot(".")
         .UseStartup<Startup>()
         .Build()
