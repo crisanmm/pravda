@@ -12,3 +12,4 @@ Fake news detector
 | NewsStorage           | 5300  | 5299 |
 | UserService           | 5400  | 5399 |
 | Stripe-API            | 5500  | 5499 |
+| WebCrawlerService     | 5600  | 5599 |
