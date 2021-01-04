@@ -1,4 +1,4 @@
-﻿using HtmlAgilityPack;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -96,9 +96,11 @@ namespace WebCrawlerService.Controllers
                 {
                     response.EnsureSuccessStatusCode();
                     var body = await response.Content.ReadFromJsonAsync<Response>();
-                    responses.Add(body);
-                    totalSimilarity += body.Data["similarity"];
-                    Console.WriteLine(body);
+                    if (body.Data["similarity"] <= 1) {
+                        responses.Add(body);
+                        totalSimilarity += body.Data["similarity"];
+                    }
+
                 }
 
             }

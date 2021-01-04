@@ -10,15 +10,16 @@ namespace ClassificationService.Controllers
     {
 
         [HttpPost]
-        public ActionResult<Dictionary<string, bool>> GetPrediction(ModelInput modelInput)
+        public ActionResult<Dictionary<string, dynamic>> GetPrediction(ModelInput modelInput)
         {
             var predictionResult = ConsumeModel.Predict(modelInput);
 
             bool isClassifiedFake = predictionResult.Prediction == "Fake" ? true : false;
 
-            var ret = new Dictionary<string, bool>
+            var ret = new Dictionary<string, dynamic>
             {
-                {"isClassifiedFake", isClassifiedFake}
+                {"isClassifiedFake", isClassifiedFake},
+                {"score", (1 - predictionResult.Score[0]) }
             };
             return ret;
         }

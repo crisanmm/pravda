@@ -72,7 +72,11 @@ namespace WebCrawlerService.Entities
                 var url = pair.Item2;
                 
                 Uri myUri = new Uri(url);
-                string host = myUri.Host;  // host is "www.contoso.com"
+                string host = myUri.Host;  
+                if( host.Contains("www."))
+                {
+                    host = host.Substring(host.IndexOf("www.") + 4);
+                }
                 var tag = "article";
                 if( hostToSelector.ContainsKey(host))
                 {
@@ -80,7 +84,12 @@ namespace WebCrawlerService.Entities
                 }
                 
                 var httpClient = new HttpClient();
-                var html = await httpClient.GetStringAsync(HttpUtility.UrlDecode(url));
+                string html = "";
+                try
+                {
+                    html = await httpClient.GetStringAsync(HttpUtility.UrlDecode(url));
+                }
+                catch { }
                 var htmlDocument = new HtmlDocument();
                 htmlDocument.LoadHtml(html);
 
