@@ -55,3 +55,7 @@
 .subject-date > p {
   margin-right: 0.25rem;
 }
+
+.subject-date > .subject {
+  color: black;
+}

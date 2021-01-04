@@ -19,7 +19,7 @@ namespace UserService.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/users")]
+    [Route("api/v1/users")]
     public class UsersController : ControllerBase
     {
         private IUserService _userService;

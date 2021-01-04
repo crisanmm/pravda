@@ -29,8 +29,8 @@
             <div class="topnews__card" style="background-color: @BackgroundColor">
                 <h5>@classified.Title</h5>
                 <div class="subject-date">
-                    <p class="date">@classified.Date</p>
                     <p class="subject">@classified.Subject</p>
+                    <p class="date">@GetTimeSinceDate(DateTime.Parse(classified.Date))</p>
                 </div>
                 <p>@classified.Text</p>
             </div>
@@ -53,9 +53,28 @@
         } 
         else
         {
-            var res = await Http.GetFromJsonAsync<List<Classified>>($"{@Configuration["NewsStorage"]}/cached_classifications/hotnews");
+            var res = await Http.GetFromJsonAsync<List<Classified>>($"{@Configuration["NewsStorage"]}/hotnews/pravda");
             Classifieds = res;
         }
+    }
+
+    private string GetTimeSinceDate(DateTime date)
+    {
+        var difference = DateTime.Now.Subtract(date);
+        if(difference.TotalHours > 24)
+        {
+            if(difference.TotalDays == 1) {
+                return $"{(int)difference.TotalDays} day ago";
+            }
+            return $"{(int)difference.TotalDays} days ago";
+        }
+
+        if(difference.TotalHours >= 1 && difference.TotalHours <= 24)
+        {
+            return $"{(int)difference.TotalHours} hours ago";
+        }
+
+        return $"{(int)difference.TotalMinutes} minutes ago";
     }
 
 

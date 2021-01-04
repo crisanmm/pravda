@@ -6,7 +6,7 @@
 @inject IConfiguration Configuration
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 
-    <EditForm model="@User" class="container" OnValidSubmit="@RegisterTask">
+<EditForm model="@User" class="container" OnValidSubmit="@RegisterTask">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
@@ -41,7 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
         var LoggedIn = await localStorage.ContainKeyAsync("token");
-        if(LoggedIn)
+        if (LoggedIn)
         {
             NavigationManager.NavigateTo("/home");
         }
@@ -50,12 +50,12 @@
     public async Task RegisterTask()
     {
         Dictionary<string, dynamic> req = new Dictionary<string, dynamic>
-{
-{"firstname", User.LastName},
-{"lastname", User.FirstName},
-{"email", User.Email},
-{"password", User.Password},
-};
+        {
+            {"firstname", User.LastName},
+            {"lastname", User.FirstName},
+            {"email", User.Email},
+            {"password", User.Password},
+        };
 
         HttpResponseMessage res = await Http.PostAsJsonAsync($"{@Configuration["UserService"]}/users/register", req);
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ClassificationService.Controllers
 {
-    [Route("api/classifications")]
+    [Route("api/v1/classifications")]
     [ApiController]
     public class ClassificationsController : ControllerBase
     {

@@ -10,14 +10,11 @@ using System;
 
 namespace NewsStorage.Controllers
 {
-    [Route("api/cached_classifications")]
+    [Route("api/v1/cached_classifications")]
     [ApiController]
     public class CachedClassificationsController : ControllerBase
     {
-
         private readonly IClassifiedRepository repository;
-
-        private static readonly HttpClient client = new HttpClient();
 
         public CachedClassificationsController(IClassifiedRepository repository)
         {
@@ -69,11 +66,11 @@ namespace NewsStorage.Controllers
             return NoContent();
         }
 
-        [HttpGet("hotnews")]
-        public ActionResult<List<CachedClassified>> GetHotNews() => Ok(repository.GetAll()
-                                                                            .Where(c => c.Today + c.Yesterday + c.Before_Yesterday >= 1 && (DateTime.Now - c.ResetTime).TotalHours <= 72)
-                                                                            .OrderByDescending(c => c.Today + c.Yesterday + c.Before_Yesterday)
-                                                                            .Take(10)
-                                                                            .ToList());
+        // [HttpGet("hotnews")]
+        // public ActionResult<List<CachedClassified>> GetHotNews() => Ok(repository.GetAll()
+        //                                                                     .Where(c => c.Today + c.Yesterday + c.Before_Yesterday >= 1 && (DateTime.Now - c.ResetTime).TotalHours <= 72)
+        //                                                                     .OrderByDescending(c => c.Today + c.Yesterday + c.Before_Yesterday)
+        //                                                                     .Take(10)
+        //                                                                     .ToList());
     }
 }
