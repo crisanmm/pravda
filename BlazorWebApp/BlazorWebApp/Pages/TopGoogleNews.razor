@@ -1,0 +1,70 @@
+@page "/topgooglenews"
+@using BlazorWebApp.Models
+@inject HttpClient Http
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+@using System.Xml
+
+<div class="topnews">
+    @if (Articles == null)
+    {
+        <div>Loading...</div>
+    }
+    else
+    {
+        <div class="header-wrapper">
+            <h3>Top @Articles.Count() Google news.</h3>
+        </div>
+        @foreach (Article article in Articles)
+        {
+            <div class="topgooglenews__card">
+                <a href="@article.Link" >@article.Title</a>
+                <div class="source-date">
+                    <p class="source">@article.Source</p>
+                    <p class="date">@GetTimeSinceDate(article.PubDate)</p>
+                </div>
+                <p>@article.Description</p>
+            </div>
+        }
+    }
+</div>
+
+@code {
+
+    public List<Article> Articles = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var LoggedIn = await localStorage.ContainKeyAsync("token");
+        if (!LoggedIn)
+        {
+            NavigationManager.NavigateTo("/login");
+        } 
+        else
+        {   
+            this.Articles = await Http.GetFromJsonAsync<List<Article>>($"{@Configuration["NewsStorage"]}/hotnews/google");
+        }
+    }
+
+    private string GetTimeSinceDate(DateTime date)
+    {
+        var difference = DateTime.Now.Subtract(date);
+        if(difference.TotalHours > 24)
+        {
+            if(difference.TotalDays == 1) {
+                return $"{(int)difference.TotalDays} day ago";
+            }
+            return $"{(int)difference.TotalDays} days ago";
+        }
+
+        if(difference.TotalHours >= 1 && difference.TotalHours <= 24)
+        {
+            return $"{(int)difference.TotalHours} hours ago";
+        }
+
+        return $"{(int)difference.TotalMinutes} minutes ago";
+    }
+
+}
