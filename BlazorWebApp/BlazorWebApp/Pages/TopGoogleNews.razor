@@ -10,7 +10,9 @@
 <div class="topnews">
     @if (Articles == null)
     {
-        <div>Loading...</div>
+    <div class="spinner-border" role="status" style="color: #5469d4">
+        <span class="sr-only">Loading...</span>
+    </div>
     }
     else
     {
@@ -19,8 +21,8 @@
         </div>
         @foreach (Article article in Articles)
         {
-            <div class="topgooglenews__card">
-                <a href="@article.Link" >@article.Title</a>
+            <div style="border-radius:0 0 12px 12px!important;" class="topgooglenews__card">
+                <a href="@article.Link">@article.Title</a>
                 <div class="source-date">
                     <p class="source">@article.Source</p>
                     <p class="date">@GetTimeSinceDate(article.PubDate)</p>

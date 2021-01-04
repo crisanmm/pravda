@@ -8,7 +8,9 @@
 <div class="topnews">
     @if (Classifieds == null)
     {
-        <div>Loading...</div>
+    <div class="spinner-border text-primary" style="color: #5469d4" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
     }
     else
     {
@@ -26,7 +28,7 @@
                 BackgroundColor = "rgba(0, 255, 0, 0.1)";
             }
 
-            <div class="topnews__card" style="background-color: @BackgroundColor">
+            <div class="topnews__card" style="background-color: @BackgroundColor;border-radius:0 0 12px 12px!important;">
                 <h5>@classified.Title</h5>
                 <div class="subject-date">
                     <p class="subject">@classified.Subject</p>
