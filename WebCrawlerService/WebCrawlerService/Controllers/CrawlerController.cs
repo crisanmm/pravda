@@ -10,7 +10,7 @@ using System.Net.Http.Json;
 
 namespace WebCrawlerService.Controllers
 {
-    [Route("api/crawler")]
+    [Route("api/v1")]
     [ApiController]
     public class CrawlerController : ControllerBase
     {
@@ -24,6 +24,7 @@ namespace WebCrawlerService.Controllers
             foreach (var t in titleToUrl)
             {
                 var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(5);
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
@@ -54,10 +55,10 @@ namespace WebCrawlerService.Controllers
 
             Dictionary<string, dynamic> ret = new Dictionary<string, dynamic>();
 
-            if( mean >=  0.5 )
+            if (mean >= 0.5)
             {
                 ret.Add("isSimilar", true);
-            } 
+            }
             else
             {
                 ret.Add("isSimilar", false);
@@ -77,6 +78,7 @@ namespace WebCrawlerService.Controllers
             foreach (var t in textUrlPair)
             {
                 var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(5);
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
@@ -96,13 +98,12 @@ namespace WebCrawlerService.Controllers
                 {
                     response.EnsureSuccessStatusCode();
                     var body = await response.Content.ReadFromJsonAsync<Response>();
-                    if (body.Data["similarity"] <= 1) {
+                    if (body.Data["similarity"] <= 1)
+                    {
                         responses.Add(body);
                         totalSimilarity += body.Data["similarity"];
                     }
-
                 }
-
             }
 
             var mean = totalSimilarity / responses.Count();

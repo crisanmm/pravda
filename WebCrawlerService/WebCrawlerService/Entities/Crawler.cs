@@ -24,6 +24,7 @@ namespace WebCrawlerService.Entities
             }
 
             var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(5);
             var html = await httpClient.GetStringAsync(url);
             var htmlDocument = new HtmlDocument();
             htmlDocument.LoadHtml(html);
@@ -84,6 +85,7 @@ namespace WebCrawlerService.Entities
                 }
                 
                 var httpClient = new HttpClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(5);
                 string html = "";
                 try
                 {

@@ -25,7 +25,7 @@
 
     <textarea placeholder="Text" @bind="classified.Text" class="input text"></textarea>
     <button @onclick="Classify">Classify</button>
-    <p style="display: @displayStyle">Classification @(this.classified.isClassifiedFake == true ? "fake" : "real")</p>
+    <p style="display: @displayStyle" class="classification-result">Classification @(this.classified.isClassifiedFake == true ? "fake" : "real")</p>
 </div>
 
 
@@ -44,23 +44,30 @@
 
     private class CachedClassificationResponse
     {
-        public bool Found { get; set; }
         public bool IsClassifiedFake { get; set; }
+        public bool Found { get; set; }
     }
-    private class ClassificationResponse
+    private class MLClassificationResponse
     {
         public bool IsClassifiedFake { get; set; }
+        public double Score { get; set; }
+    }
+
+    private class CrawlerClassificationResponse
+    {
+        public bool IsClassifiedFake { get; set; }
+        public double Similarity { get; set; }
     }
 
     public async Task Classify()
     {
         var req = new Dictionary<string, dynamic>
-{
-{ "title", classified.Title },
-{ "text", classified.Text },
-{ "subject", classified.Subject },
-{ "date", classified.Date },
-};
+        {
+            { "title", this.classified.Title },
+            { "text", this.classified.Text },
+            { "subject", this.classified.Subject },
+            { "date", this.classified.Date },
+        };
 
         // check to see if article is in cache
         HttpResponseMessage res = await
@@ -75,8 +82,34 @@
         {
             // classify instance
             res = await Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/classifications", req);
-            this.classified.isClassifiedFake = (await res.Content.ReadFromJsonAsync<ClassificationResponse>()).IsClassifiedFake;
+            MLClassificationResponse MLRes =
+                await res.Content.ReadFromJsonAsync<MLClassificationResponse>();
+            System.Console.WriteLine("ML score = " + MLRes.Score);
 
+            var article = new Dictionary<string, string> {
+                {"Title", this.classified.Title},
+                {"Text", this.classified.Text},
+            };
+
+            res = await Http.PostAsJsonAsync($"{@Configuration["WebCrawlerService"]}/title", article);
+            CrawlerClassificationResponse crawlerRes =
+                await res.Content.ReadFromJsonAsync<CrawlerClassificationResponse>();
+            System.Console.WriteLine("crawler title score = " + crawlerRes.Similarity);
+            if (crawlerRes.Similarity >= 0.5)
+            {
+                res = await Http.PostAsJsonAsync($"{@Configuration["WebCrawlerService"]}/text", article);
+                crawlerRes = await res.Content.ReadFromJsonAsync<CrawlerClassificationResponse>();
+                System.Console.WriteLine("crawler text score = " + crawlerRes.Similarity);
+
+                double finalScore = 0.2 * MLRes.Score + 0.8 * crawlerRes.Similarity;
+                this.classified.isClassifiedFake = finalScore < 0.5;
+            }
+            else
+            {
+                this.classified.isClassifiedFake = MLRes.IsClassifiedFake;
+            }
+
+            req["isClassifiedFake"] = this.classified.isClassifiedFake;
             // store the article in cache
             await Http.PostAsJsonAsync($"{@Configuration["NewsStorage"]}/cached_classifications/store", req);
         }

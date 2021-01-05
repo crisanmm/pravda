@@ -76,6 +76,7 @@ a,
 input[type="text"],
 input[type="email"],
 input[type="password"] {
+  border-radius: 0 0 12px 12px !important;
   width: 100%;
   padding: 15px;
   margin: 5px 0 22px 0;
@@ -99,6 +100,7 @@ hr {
 /* Set a style for all buttons */
 button {
   background-color: #4caf50;
+  border-radius: 0 0 12px 12px !important;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
@@ -150,7 +152,7 @@ button:disabled {
 }
 
 .form_output {
-  border-radius: none;
+  border-radius: 0 0 12px 12px !important;
   border: 1px solid #f1f1f1;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 1rem;
