@@ -1,0 +1,189 @@
+{
+  "Routes": [
+    //NewsStorage Service
+    {
+      "DownstreamPathTemplate": "/api/v1/hotnews/google",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/hotnews/google",
+      "UpstreamHttpMethod": [ "Get" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/hotnews/pravda",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/hotnews/pravda",
+      "UpstreamHttpMethod": [ "Get" ]
+
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/cached_classifications",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/cached_classifications",
+      "UpstreamHttpMethod": [ "Post", "Get" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/cached_classifications/store",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/cached_classifications/store",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/cached_classifications/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5300
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/{id}",
+      "UpstreamHttpMethod": [ "Get", "Delete" ]
+
+    },
+
+
+    //UserService
+    {
+      "DownstreamPathTemplate": "/api/v1/users/register",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5400
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/User/users/register",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/authenticate",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5400
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/User/users/authenticate",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5400
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/User/{id}",
+      "UpstreamHttpMethod": [ "Put", "Get", "Delete" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/users",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5400
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/User",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    //ClassifficationService
+    {
+      "DownstreamPathTemplate": "/api/v1/classifications",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5200
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/ClassifficationService/classifications",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/classifications",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5400
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/ClassifficationService/classifications",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+    //WebCrawlerService
+    {
+      "DownstreamPathTemplate": "/api/v1/title",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5600
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/WebCrawlerService/title",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1/text",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5600
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/WebCrawlerService/text",
+      "UpstreamHttpMethod": [ "Post" ]
+    },
+    //Stripe-API Service
+
+    {
+      "DownstreamPathTemplate": "/api/v1/create-payment-intent",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5500
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/StripeAPI/create-payment-intent",
+      "UpstreamHttpMethod": [ "Post" ]
+    }
+
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:5001"
+  }
+
+}
