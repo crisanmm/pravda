@@ -1,5 +1,7 @@
 ﻿@page "/"
 @inject HttpClient Http
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+
 <div style="border-radius: 0 0 12px 12px !important;border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);padding: 1rem;">
     <h4 style="color:#5469d4;padding:2rem 2rem 0 2rem;font-size:1.8rem;font-weight:600;">
         Why should you care about whether
@@ -85,20 +87,25 @@
 
     </div>
 
-    <div class="api-cards">
+    @{
+        if (this.LoggedIn)
+        {
+            <div class="api-cards">
 
-        <NavLink class="nav-link" href="logoff">
-            <span class="oi oi-person" aria-hidden="true" style="transform: scale(2);"></span>
+                <NavLink class="nav-link" href="logoff">
+                    <span class="oi oi-person" aria-hidden="true" style="transform: scale(2);"></span>
 
-            <p></p>
+                    <p></p>
 
-            <p style="color: black;">Log out of your account.</p>
+                    <p style="color: black;">Log out of your account.</p>
 
-            <p>Log Off</p>
+                    <p>Log Off</p>
 
-        </NavLink>
+                </NavLink>
 
-    </div>
+            </div>
+        }
+    }
 </div>
 @* <footer style="width:100%;" class="fixed-bottom">
     <section id="footer">
@@ -146,5 +153,10 @@
     </footer> *@
 
 @code {
+    public bool LoggedIn { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        this.LoggedIn = await localStorage.ContainKeyAsync("token");
+    }
 }
