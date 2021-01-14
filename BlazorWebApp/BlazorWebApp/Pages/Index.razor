@@ -1,7 +1,6 @@
 ﻿@page "/"
 @inject HttpClient Http
-<div
-    style="border-radius: 0 0 12px 12px !important;border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);padding: 1rem;">
+<div style="border-radius: 0 0 12px 12px !important;border: 1px solid rgba(0, 0, 0, 0.125);border-radius: 0.25rem;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);padding: 1rem;">
     <h4 style="color:#5469d4;padding:2rem 2rem 0 2rem;font-size:1.8rem;font-weight:600;">
         Why should you care about whether
         or not your news is real or fake?
@@ -22,6 +21,84 @@
             articles about that company so you can invest wisely.
         </li>
     </ul>
+</div>
+
+<div class="card-container">
+    <div class="api-cards">
+
+        <NavLink class="nav-link" href="topnews">
+            <span class="oi oi-fire" aria-hidden="true" style="transform: scale(2);"></span>
+
+            <p></p>
+
+            <p style="color: black;">The most often tested articles in the last 3 days.</p>
+
+
+            <p>Top Pravda News</p>
+
+        </NavLink>
+
+    </div>
+
+    <div class="api-cards">
+
+        <NavLink class="nav-link" href="topgooglenews">
+            <span class="oi oi-fire" aria-hidden="true" style="transform: scale(2);"></span>
+
+            <p></p>
+
+            <p style="color: black;">Some of the news that are now trending on Google.</p>
+
+            <p>Top Google News</p>
+
+        </NavLink>
+
+    </div>
+
+    <div class="api-cards">
+
+        <NavLink class="nav-link" href="classifier">
+            <span class="oi oi-calculator" aria-hidden="true" style="transform: scale(2);"></span>
+
+            <p></p>
+
+            <p style="color: black;">Try our classifier, to discern if an article is true or not.</p>
+
+            <p>Classifier</p>
+
+        </NavLink>
+
+    </div>
+
+    <div class="api-cards">
+
+        <NavLink class="nav-link" href="donate">
+            <span class="oi oi-dollar" aria-hidden="true" style="transform: scale(2);"></span>
+
+            <p></p>
+
+            <p style="color: black;">If you enjoy our services, consider giving us a tip!</p>
+
+            <p>Donate</p>
+
+        </NavLink>
+
+    </div>
+
+    <div class="api-cards">
+
+        <NavLink class="nav-link" href="logoff">
+            <span class="oi oi-person" aria-hidden="true" style="transform: scale(2);"></span>
+
+            <p></p>
+
+            <p style="color: black;">Log out of your account.</p>
+
+            <p>Log Off</p>
+
+        </NavLink>
+
+    </div>
 </div>
 @* <footer style="width:100%;" class="fixed-bottom">
     <section id="footer">
