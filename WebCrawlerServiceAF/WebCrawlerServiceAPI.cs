@@ -74,12 +74,13 @@ namespace WebCrawlerService
         }
 
         [FunctionName("text")]
-        public async Task<Dictionary<string, dynamic>> Text([HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/text")] HttpRequest req)
+        public async Task<Dictionary<string, dynamic>> Text([HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/text")] HttpRequest req,
+                                                            ExecutionContext context)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             Article article = JsonConvert.DeserializeObject<Article>(requestBody);
 
-            List<(string, string)> textUrlPair = await Crawler.GetTextUrlPair(article.Title);
+            List<(string, string)> textUrlPair = await Crawler.GetTextUrlPair(article.Title, context.FunctionAppDirectory);
 
             List<Response> responses = new List<Response>();
             double totalSimilarity = 0;

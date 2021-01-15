@@ -48,6 +48,17 @@ namespace NewsStorage.Controllers
         [HttpPost("store")]
         public ActionResult StoreArticle(CachedClassified classified)
         {
+            System.Console.WriteLine(classified.Title);
+            System.Console.WriteLine(classified.Text);
+            System.Console.WriteLine(classified.Subject);
+            System.Console.WriteLine(classified.Date);
+            System.Console.WriteLine(classified.isClassifiedFake);
+            System.Console.WriteLine(classified.id);
+            System.Console.WriteLine(classified.Today);
+            System.Console.WriteLine(classified.Yesterday);
+            System.Console.WriteLine(classified.Before_Yesterday);
+            System.Console.WriteLine(classified.ResetTime);
+
             repository.Create(classified);
 
             return NoContent();

@@ -71,9 +71,9 @@
 
         // check to see if article is in cache
         HttpResponseMessage res = await
-            Http.PostAsJsonAsync($"{@Configuration["NewsStorage"]}/cached_classifications",
+            Http.PostAsJsonAsync($"{@Configuration["NewsStorage"]}/cached_classifications/getprediction",
             req);
-        CachedClassificationResponse ccr = await res.Content.ReadFromJsonAsync<CachedClassificationResponse>();
+        var ccr = await res.Content.ReadFromJsonAsync<CachedClassificationResponse>();
         if (ccr.Found)
         {
             this.classified.isClassifiedFake = ccr.IsClassifiedFake;
@@ -82,8 +82,7 @@
         {
             // classify instance
             res = await Http.PostAsJsonAsync($"{@Configuration["ClassificationService"]}/classifications", req);
-            MLClassificationResponse MLRes =
-                await res.Content.ReadFromJsonAsync<MLClassificationResponse>();
+            var MLRes = await res.Content.ReadFromJsonAsync<MLClassificationResponse>();
             System.Console.WriteLine("ML score = " + MLRes.Score);
 
             var article = new Dictionary<string, string> {
@@ -92,8 +91,7 @@
             };
 
             res = await Http.PostAsJsonAsync($"{@Configuration["WebCrawlerService"]}/title", article);
-            CrawlerClassificationResponse crawlerRes =
-                await res.Content.ReadFromJsonAsync<CrawlerClassificationResponse>();
+            var crawlerRes = await res.Content.ReadFromJsonAsync<CrawlerClassificationResponse>();
             System.Console.WriteLine("crawler title score = " + crawlerRes.Similarity);
             if (crawlerRes.Similarity >= 0.5)
             {
@@ -109,8 +107,8 @@
                 this.classified.isClassifiedFake = MLRes.IsClassifiedFake;
             }
 
-            req["isClassifiedFake"] = this.classified.isClassifiedFake;
             // store the article in cache
+            req["isClassifiedFake"] = this.classified.isClassifiedFake;
             await Http.PostAsJsonAsync($"{@Configuration["NewsStorage"]}/cached_classifications/store", req);
         }
         displayStyle = "block";

@@ -30,10 +30,10 @@ namespace ClassificationService.Model
             MLContext mlContext = new MLContext();
             // Load model & create prediction engine
 
-            var binDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var rootDirectory = Path.GetFullPath(Path.Combine(binDirectory, "../../.."));
+            // var binDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            // var rootDirectory = Path.GetFullPath(Path.Combine(binDirectory, ".."));
             // the path to the model is relative to ClassificationService/ directory
-            string modelPath = $"{rootDirectory}/Models/MLModel.zip";
+            string modelPath = "./Models/MLModel.zip";
 
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);

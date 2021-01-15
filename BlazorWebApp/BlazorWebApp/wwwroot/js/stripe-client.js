@@ -5,9 +5,7 @@ fetch("/appsettings.json").then(async (res) => {
 
 stripeFn = () => {
   // A reference to Stripe.js initialized with your real test publishable API key.
-  let stripe = Stripe(
-    "pk_test_51I5atOHCCagIEuhDqa5u4vfiSIS1VSOkcXlc8dVoZ05QNpWIIjcK58Eqyzk8UDuEkmyMMHagy72quffCrnuNRbvI00z89onMda"
-  );
+  let stripe = Stripe("pk_test_sD80rIgUzYMi2pium7VWCzwY00qlmaFRps");
 
   // The items the customer wants to buy
   let purchase = {
@@ -18,7 +16,7 @@ stripeFn = () => {
 
   button = document.querySelector("button");
   button.disabled = true;
-
+  console.log(Configuration);
   fetch(`${Configuration["StripeService"]}/create-payment-intent`, {
     method: "POST",
     headers: {

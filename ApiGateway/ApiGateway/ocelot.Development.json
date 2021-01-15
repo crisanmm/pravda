@@ -2,69 +2,77 @@
   "Routes": [
     //NewsStorage Service
     {
-      "DownstreamPathTemplate": "/api/v1/hotnews/google",
+      "DownstreamPathTemplate": "/api/v1/hotnews/google?code=ThsH1hV1uLF1K50zA3VDDwhez28VeL9irGXEwaNEwwhsuLR0z/paAQ==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5300
+          "Host": "dotnet-pravda-newsstorageservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/v1/NewsStorage/hotnews/google",
-      "UpstreamHttpMethod": [ "Get" ]
-
+      "UpstreamHttpMethod": ["Get"]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/hotnews/pravda",
+      "DownstreamPathTemplate": "/api/v1/hotnews/pravda?code=1Zn6tZpT0WjKv/5MnkTdclzEHmYjUeJrBsC2UP8220zko1NWf8kDsg==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5300
+          "Host": "dotnet-pravda-newsstorageservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/v1/NewsStorage/hotnews/pravda",
-      "UpstreamHttpMethod": [ "Get" ]
-
+      "UpstreamHttpMethod": ["Get"]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/cached_classifications",
+      "DownstreamPathTemplate": "/api/v1/cached_classifications?code=VSEpMknL8cFqr8FAiAY7OjG2k2ctpL5o/HHP8s8fkyolYkAnXiwvUQ==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5300
+          "Host": "dotnet-pravda-newsstorageservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/v1/NewsStorage/cached_classifications",
-      "UpstreamHttpMethod": [ "Post", "Get" ]
+      "UpstreamHttpMethod": ["Post", "Get"]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/cached_classifications/store",
+      "DownstreamPathTemplate": "/api/v1/cached_classifications/store?code=HXocuUn7h8Ue/5NeRAJbGDb8uV60fMqFGcMFvR7GvaFs59fVhjBEuw==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5300
+          "Host": "dotnet-pravda-newsstorageservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/v1/NewsStorage/cached_classifications/store",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     },
     {
-      "DownstreamPathTemplate": "/api/v1/cached_classifications/{id}",
+      "DownstreamPathTemplate": "/api/v1/cached_classifications/{id}?code=bQuyBambBBwfGa7MzbkRFDNO280lSoDF0iWBSvChNVk/Xweo475U3w==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5300
+          "Host": "dotnet-pravda-newsstorageservice.azurewebsites.net",
+          "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/api/v1/NewsStorage/{id}",
-      "UpstreamHttpMethod": [ "Get", "Delete" ]
-
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/cached_classifications/{id}",
+      "UpstreamHttpMethod": ["Get", "Delete"]
     },
-
+    {
+      "DownstreamPathTemplate": "/api/v1/cached_classifications/getprediction?code=SOEnju7iF7qSaRe4kVDG7r7ejkTPBPaoAnYEjMMpS95cVOGzb1Z/EQ==",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "dotnet-pravda-newsstorageservice.azurewebsites.net",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/api/v1/NewsStorage/cached_classifications/getprediction",
+      "UpstreamHttpMethod": ["Post"]
+    },
 
     //UserService
     {
@@ -77,7 +85,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/v1/User/users/register",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/authenticate",
@@ -89,7 +97,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/v1/User/users/authenticate",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     },
     {
       "DownstreamPathTemplate": "/api/v1/users/{id}",
@@ -101,7 +109,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/v1/User/{id}",
-      "UpstreamHttpMethod": [ "Put", "Get", "Delete" ]
+      "UpstreamHttpMethod": ["Put", "Get", "Delete"]
     },
     {
       "DownstreamPathTemplate": "/api/v1/users",
@@ -113,7 +121,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/v1/User",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": ["Get"]
     },
     //ClassifficationService
     {
@@ -126,7 +134,7 @@
         }
       ],
       "UpstreamPathTemplate": "/api/v1/ClassifficationService/classifications",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     },
     {
       "DownstreamPathTemplate": "/api/v1/classifications",
@@ -134,25 +142,25 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5400
+          "Port": 5200
         }
       ],
       "UpstreamPathTemplate": "/api/v1/ClassifficationService/classifications",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": ["Get"]
     },
 
     //WebCrawlerService
     {
-      "DownstreamPathTemplate": "/api/v1/title",
+      "DownstreamPathTemplate": "/api/v1/title?code=qiXW2YcG2x2gclZ/UlUqU06IGAAg46jAnmhGT4wEW4GfFPLnbBntYA==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5600
+          "Host": "dotnet-pravda-webcrawlerservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/v1/WebCrawlerService/title",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     },
     {
       "DownstreamPathTemplate": "/api/v1/text",
@@ -164,26 +172,24 @@
         }
       ],
       "UpstreamPathTemplate": "/api/v1/WebCrawlerService/text",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     },
     //Stripe-API Service
 
     {
-      "DownstreamPathTemplate": "/api/v1/create-payment-intent",
+      "DownstreamPathTemplate": "/api/v1/create-payment-intent?code=fF8eDwSrJET3jTSBU1PD8nUo01GMx1/8vDAJO9xvZYIPKNDdaXd5Sg==",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5500
+          "Host": "dotnet-pravda-stripeservice.azurewebsites.net",
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/api/v1/StripeAPI/create-payment-intent",
-      "UpstreamHttpMethod": [ "Post" ]
+      "UpstreamHttpMethod": ["Post"]
     }
-
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:5001"
   }
-
 }

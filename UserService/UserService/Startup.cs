@@ -30,7 +30,7 @@ namespace UserService
         {
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite(_config.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             });
 
             services.AddTransient<IUserService, UserService.Services.UserService>();

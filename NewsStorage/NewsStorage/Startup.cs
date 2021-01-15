@@ -28,7 +28,7 @@ namespace NewsStorage
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite(this.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddCors(options =>

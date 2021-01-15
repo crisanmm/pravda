@@ -62,35 +62,34 @@ namespace WebCrawlerService.Entities
             return titleToUrl;
         }
 
-        public static async Task<List<(string, string)>> GetTextUrlPair(string query)
+        public static async Task<List<(string, string)>> GetTextUrlPair(string query, string directory)
         {
-            var binDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var rootDirectory = Path.GetFullPath(Path.Combine(binDirectory, "../../.."));
+            // var binDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            // var rootDirectory = Path.GetFullPath(Path.Combine(binDirectory, "../../.."));
 
             // System.Console.WriteLine(binDirectory);
             // System.Console.WriteLine(rootDirectory);
-            
-            using FileStream openStream = File.OpenRead($"{rootDirectory}/Data/siteTags.json");
+            using FileStream openStream = File.OpenRead(Path.Combine(directory, "Data", "siteTags.json"));
             var hostToSelector = await JsonSerializer.DeserializeAsync<Dictionary<string, string>>(openStream);
 
             List<(string, string)> titleUrlPair = await GetTitleUrlPair(query);
             List<(string, string)> textUrlPair = new List<(string, string)>();
-            foreach(var pair in titleUrlPair)
+            foreach (var pair in titleUrlPair)
             {
                 var url = pair.Item2;
-                
+
                 Uri myUri = new Uri(url);
-                string host = myUri.Host;  
-                if( host.Contains("www."))
+                string host = myUri.Host;
+                if (host.Contains("www."))
                 {
                     host = host.Substring(host.IndexOf("www.") + 4);
                 }
                 var tag = "article";
-                if( hostToSelector.ContainsKey(host))
+                if (hostToSelector.ContainsKey(host))
                 {
                     tag = hostToSelector[host];
                 }
-                
+
                 var httpClient = new HttpClient();
                 httpClient.Timeout = TimeSpan.FromSeconds(5);
                 string html = "";

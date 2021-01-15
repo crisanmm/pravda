@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace ClassificationService
 {
@@ -39,8 +40,11 @@ namespace ClassificationService
 
         [HttpPost]
         [FunctionName("classify")]
-        public async Task<ActionResult<Dictionary<string, dynamic>>> GetPrediction([HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/classifications")] HttpRequest req)
+        public async Task<ActionResult<Dictionary<string, dynamic>>> GetPrediction([HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/classifications")] HttpRequest req,
+                            ExecutionContext context)
         {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(context.FunctionAppDirectory);
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             ModelInput modelInput = JsonConvert.DeserializeObject<ModelInput>(requestBody);
 
